@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from flask_restful import Api, Resource
-from model import getName, ChessUsers
+from model import getName, Users
 
 # Blueprints allow this code to be procedurally abstracted from main.py, meaning code is not all in one place
 NameAPI = Blueprint('NameAPI', __name__, url_prefix='/api/names')

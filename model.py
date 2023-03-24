@@ -8,7 +8,7 @@ from flask import Blueprint, request, jsonify
 
 
 
-class ChessUsers(UserMixin, db.Model):
+class Users(UserMixin, db.Model):
     __tablename__ = 'chess_users'
     
     # Define the Users schema
@@ -129,19 +129,19 @@ class ChessUsers(UserMixin, db.Model):
             return None
 
 def getUser(uid):
-    users = ChessUsers.query.all()
+    users = Users.query.all()
     for user in users:
         if(user.get_id() == uid):
             return user
 
 def getName(name):
-    users = ChessUsers.query.all()
+    users = Users.query.all()
     for user in users:
         if(user.get_name() == name):
             return user
         
 def make_id():
-    users = ChessUsers.query.all()
+    users = Users.query.all()
     uid = 0
     for user in users:
         if(user.get_id() > uid):
@@ -161,10 +161,8 @@ def createTestingData():
     with app.app_context():
         db.init_app(app)
         db.create_all()
-        u1 = ChessUsers(name='Toby', password="lmaobad", uid="12")
-        u2 = ChessUsers(name='Gene', password="WRizz", uid="123")
-        u3 = BattleshipUsers(username='das', score="19")
-        u4 = BattleshipUsers(username='parav', score="34")
+        u1 = Users(name='Toby', password="lmaobad", uid="12")
+        u2 = Users(name='Gene', password="WRizz", uid="123")
         try:
             '''add user/note data to table'''
             u1.create()
