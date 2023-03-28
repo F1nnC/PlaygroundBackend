@@ -21,4 +21,4 @@ class PizzaAPI:
             pizzaPrice = body.get('pizzaPrice')
 
             if pizzaType is none or len(pizzaType) < 2:
-                retorn {'message': f'pizzatype is missing or too short'}, 210
+                return {'message': f'pizzatype is missing or too short'}, 210
