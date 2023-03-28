@@ -13,4 +13,10 @@ class Pizzas(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     pizza = db.column(db.String(255), unique=False, nullable=False)
-    pizzaPrice = db.column(db.string(255), unique=False)
+    pizzaPrice = db.column(db.string(255), unique=False, nullable=False)
+
+
+    def __init__(self, pizza, pizzaPrice):
+
+        self.pizza = pizza
+        self.pizzaPrice = pizzaPrice
