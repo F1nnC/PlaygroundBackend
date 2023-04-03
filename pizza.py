@@ -4,7 +4,7 @@ from datetime import datetime
 from users import test
 from __init__ import db, app
 pizza_api = Blueprint('pizza_api', __name__,
-                   url_prefix='/api/pizzas')
+                   url_prefix='/pizzas')
 
 api = Api(pizza_api)
 
