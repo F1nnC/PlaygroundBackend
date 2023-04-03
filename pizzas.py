@@ -14,6 +14,7 @@ class Pizzas(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     pizza = db.column(db.String(255), unique=False, nullable=False)
     pizzaPrice = db.column(db.string(255), unique=False, nullable=False)
+    pizzaSize = db.column(db.string(255), unique=False, nullable=False)
 
 
     def __init__(self, pizza, pizzaPrice):
@@ -33,11 +34,19 @@ class Pizzas(db.Model):
     
     @property
     def pizzaPrice(self):
-        return self.stock
+        return self.pizzaPrice
     
     @pizzaPrice.setter
-        def pizzaPrice(self, pizzaPrice):
-        self.pizzaPrice = pizzaPrice
+    def pizzaPrice(self, pizzaPrice):
+            self.pizzaPrice = pizzaPrice
+    
+    @property
+    def pizzaSize(self):
+        return self.pizzaSize
+    
+    @pizzaSize.setter
+    def pizzaSize(self, pizzaSize):
+        self.pizzasize = pizzaSize
     
 
     def __str__(self):
@@ -56,6 +65,40 @@ class Pizzas(db.Model):
         return {
             "pizza": self.pizza,
             "pizzaPrice": self.pizzaPrice,
+            "pizzaSize": self.pizzaSize
         }
-    def update(self, pizza="", pizzaPrice=""):
+    def update(self, pizza="", pizzaPrice="", pizzaSize=""):
+       """only updates values with length"""
+       if len(pizza) > 2:
+           self.pizza = pizza
+       if len(pizzaPrice) > 0:
+           self.pizzaPrice = pizzaPrice
+       if len(pizzaSize) > 0:
+           self.pizzaSize = pizzaSize
+       db.session.commit()
+       return self
+    
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+        return None
+    # end of crud
+
+def initPizzas():
+    with app.app_context():
+        db.create_all()
+
+        # Test data
+        u1 = Pizzas( pizza='Cheese pizza', pizzaPrice='14.99', pizzaSize='Large')
+        u2 = Pizzas( pizza='Cheese pizza', pizzaPrice='12.99', pizzaSize='Medium')
+        u3 = Pizzas( pizza='Cheese pizza', pizzaPrice='10.99', pizzaSize='Small')
         
+
+pizza = [u1, u2, u3]
+
+for pizza in pizzas:
+    try:
+        pizza.create()
+    except IntegrityError:
+        db.session.remove()
+        print(f"This is a duplicate")
