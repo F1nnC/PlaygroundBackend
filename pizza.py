@@ -17,11 +17,11 @@ class PizzaAPI:
                         
             ''' Avoid garbage in, error checking '''
             # validate name
-            pizzaType = body.get('pizzaType')
+            pizza = body.get('pizza')
             pizzaSize = body.get('pizzaSize')
             pizzaPrice = body.get('pizzaPrice')
 
-            if pizzaType is None or len(pizzaType) < 2:
+            if pizza is None or len(pizza) < 2:
                 return {'message': f'Pizzatype is missing or too short'}, 210
             
             uo = Pizzas(pizza=pizza,
