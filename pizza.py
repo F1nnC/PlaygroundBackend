@@ -1,8 +1,9 @@
 from flask import Blueprint, request, jsonify
 from flask_restful import Api, Resource # used for REST API building
 from datetime import datetime
-from users import test
+from pizzas import pizzas
 from __init__ import db, app
+
 pizza_api = Blueprint('pizza_api', __name__,
                    url_prefix='/pizzas')
 
@@ -32,7 +33,7 @@ class PizzaAPI:
                 return jsonify(pizza.read())
             return {'message': f'Processed {pizza}, either format issue or pizza is duplicate'}, 210
     class _Read(Resource):
-        def get(self):
+        def get(selfcreate):
             pizzas = Pizzas.query.all()
             json_ready = [pizza.read() for pizza in pizzas]
             return jsonify(json_ready)
