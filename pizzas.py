@@ -54,7 +54,7 @@ class Pizzas(db.Model):
     
     def create(self):
         try:
-            db.session.ass(self)
+            db.session.add(self)
             db.session.commit()
             return self
         except IntegrityError:
