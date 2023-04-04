@@ -9,34 +9,34 @@ pizza_api = Blueprint('pizza_api', __name__,
 
 api = Api(pizza_api)
 
-class PizzaAPI:
-    class _Create(Resource):
-        def post(self):
-            ''' Read data for json body '''
-            body = request.get_json()
+class Create(Resource):
+    def post(self):
+        ''' Read data for json body '''
+        body = request.get_json()
                         
-            ''' Avoid garbage in, error checking '''
-            # validate name
-            pizza = body.get('pizza')
-            pizzaSize = body.get('pizzaSize')
-            pizzaPrice = body.get('pizzaPrice')
+        ''' Avoid garbage in, error checking '''
+        # validate name
+        pizza = body.get('pizza')
+        pizzaSize = body.get('pizzaSize')
+        pizzaPrice = body.get('pizzaPrice')
 
-            if pizza is None or len(pizza) < 2:
-                return {'message': f'Pizzatype is missing or too short'}, 210
+        if pizza is None or len(pizza) < 2:
+            return {'message': f'Pizzatype is missing or too short'}, 210
             
-            uo = Pizzas(pizza=pizza,
-                    pizzaSize=pizzaSize,
-                    pizzaPrice=pizzaPrice)
+        uo = Pizzas(pizza=pizza,
+                pizzaSize=pizzaSize,
+                pizzaPrice=pizzaPrice)
             
-            pizza = uo.create()
-            if pizza:
-                return jsonify(pizza.read())
-            return {'message': f'Processed {pizza}, either format issue or pizza is duplicate'}, 210
-    class _Read(Resource):
-        def get(selfcreate):
-            pizzas = Pizzas.query.all()
-            json_ready = [pizza.read() for pizza in pizzas]
-            return jsonify(json_ready)
+        pizza = uo.create()
+        if pizza:
+            return jsonify(pizza.read())
+        return {'message': f'Processed {pizza}, either format issue or pizza is duplicate'}, 210
 
-api.add_resource(_Create, '/create')
-api.add_resource(_Read, '/')
+class Read(Resource):
+    def get(self):
+        pizzas = Pizzas.query.all()
+        json_ready = [pizza.read() for pizza in pizzas]
+        return jsonify(json_ready)
+
+api.add_resource(Create, '/create')
+api.add_resource(Read, '/') 
