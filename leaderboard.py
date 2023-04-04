@@ -3,8 +3,8 @@ from flask_restful import Api, Resource
 from datetime import datetime
 from model_chess import getUser, getName
 
-leaderboard_api = Blueprint('leaderboard_api', __name__, url_prefix='/api/leaderboard')
-api = Api(leaderboard_api)
+LeaderboardAPI = Blueprint('LeaderboardAPI.i', __name__, url_prefix='/api/leaderboard')
+api = Api(LeaderboardAPI)
 
 # example leaderboard data
 leaderboard = {
