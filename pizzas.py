@@ -50,11 +50,11 @@ class Pizzas(db.Model):
     
 
     def __str__(self):
-        return json.dumps(self,read())
+        return json.dumps(self.read())
     
     def create(self):
         try:
-            db.session.ass(self)
+            db.session.add(self)
             db.session.commit()
             return self
         except IntegrityError:
@@ -89,14 +89,14 @@ def initPizzas():
         db.create_all()
 
         # Test data
-        u1 = Pizzas( pizza='Cheese pizza', pizzaPrice='14.99', pizzaSize='Large')
-        u2 = Pizzas( pizza='Cheese pizza', pizzaPrice='12.99', pizzaSize='Medium')
-        u3 = Pizzas( pizza='Cheese pizza', pizzaPrice='10.99', pizzaSize='Small')
+        u1 = Pizzas(pizza='Cheese pizza', pizzaPrice='14.99', pizzaSize='Large')
+        u2 = Pizzas(pizza='Cheese pizza', pizzaPrice='12.99', pizzaSize='Medium')
+        u3 = Pizzas(pizza='Cheese pizza', pizzaPrice='10.99', pizzaSize='Small')
         
 
 pizza = [u1, u2, u3]
 
-for pizza in pizzas:
+for pizza in Pizzas:
     try:
         pizza.create()
     except IntegrityError:
