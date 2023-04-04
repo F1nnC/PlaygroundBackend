@@ -50,7 +50,7 @@ class Pizzas(db.Model):
     
 
     def __str__(self):
-        return json.dumps(self,read())
+        return json.dumps(self.read())
     
     def create(self):
         try:
