@@ -21,7 +21,7 @@ class Pizza(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     _pizza = db.Column(db.String(255), unique=False, nullable=False) #_name
-    _pizzaPrice = db.Column(db.String(255), unique=True, nullable=False) #_uid
+    _pizzaPrice = db.Column(db.String(255), unique=False, nullable=False) #_uid
     _pizzaSize = db.Column(db.String(255), unique=False, nullable=False) # _password
     def __init__(self, pizza, pizzaPrice, pizzaSize):
         self._pizza = pizza
