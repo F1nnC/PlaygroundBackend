@@ -1,5 +1,5 @@
 ## [Flask Portfolio Starter](https://github.com/nighthawkcoders/flask_portfolio)
-Runtime link: https://flask.nighthawkcodingsociety.com/
+Runtime link: https://playgroundproject.duckdns.org/
 ### Quick way to get started
 > Quick steps with MacOS or WSL; this uses Nix for programmatic way to build tools and dependencies.
 
