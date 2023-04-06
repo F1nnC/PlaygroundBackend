@@ -111,7 +111,7 @@ def initPizzas():
         p14 = Pizza(pizza='Hawaiian', pizzaPrice='12.99', pizzaSize='Medium')
         p15 = Pizza(pizza='Hawaiian', pizzaPrice='14.99', pizzaSize='Large')
 
-        pizzas = [p1, p2, p3, p4, p5, p6]
+        pizzas = [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15]
 
         for item in pizzas:
             try:
