@@ -95,12 +95,21 @@ class Pizza(db.Model):
 def initPizzas():
     with app.app_context():
         db.create_all()
-        p1 = Pizza(pizza='Cheese', pizzaPrice='14.99', pizzaSize='Medium')
-        p2 = Pizza(pizza='Pepperoni', pizzaPrice='14.99', pizzaSize='Medium')
-        p3 = Pizza(pizza='Barbecue', pizzaPrice='11.99', pizzaSize='Small')
-        p4 = Pizza(pizza='Four Cheese', pizzaPrice='9.99', pizzaSize='Personal')
-        p5 = Pizza(pizza='Vegetarian', pizzaPrice='18.99', pizzaSize='Xtra-Large')
-        p6 = Pizza(pizza='Hawaiian', pizzaPrice='16.99', pizzaSize='Large')
+        p1 = Pizza(pizza='Cheese', pizzaPrice='10.99', pizzaSize='Small')
+        p2 = Pizza(pizza='Cheese', pizzaPrice='12.99', pizzaSize='Medium')
+        p3 = Pizza(pizza='Cheese', pizzaPrice='14.99', pizzaSize='Large')
+        p4 = Pizza(pizza='Pepperoni', pizzaPrice='10.99', pizzaSize='Small')
+        p5 = Pizza(pizza='Pepperoni', pizzaPrice='12.99', pizzaSize='Medium')
+        p6 = Pizza(pizza='Pepperoni', pizzaPrice='14.99', pizzaSize='Large')
+        p7 = Pizza(pizza='Barbecue', pizzaPrice='10.99', pizzaSize='Small')
+        p8 = Pizza(pizza='Barbecue', pizzaPrice='12.99', pizzaSize='Medium')
+        p9 = Pizza(pizza='Barbecue', pizzaPrice='14.99', pizzaSize='Large')
+        p10 = Pizza(pizza='Vegetarian', pizzaPrice='10.99', pizzaSize='Small')
+        p11 = Pizza(pizza='Vegetarian', pizzaPrice='12.99', pizzaSize='Medium')
+        p12 = Pizza(pizza='Vegetarian', pizzaPrice='14.99', pizzaSize='Large')
+        p13 = Pizza(pizza='Hawaiian', pizzaPrice='10.99', pizzaSize='Small')
+        p14 = Pizza(pizza='Hawaiian', pizzaPrice='12.99', pizzaSize='Medium')
+        p15 = Pizza(pizza='Hawaiian', pizzaPrice='14.99', pizzaSize='Large')
 
         pizzas = [p1, p2, p3, p4, p5, p6]
 
