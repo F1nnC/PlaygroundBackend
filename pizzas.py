@@ -65,7 +65,7 @@ class Pizzas(db.Model):
         return {
             "pizza": self.pizza,
             "pizzaPrice": self.pizzaPrice,
-            "pizzaSize": self.pizzaSize
+            "pizzaSize": self.pizzaSize,
         }
     
     def update(self, pizza="", pizzaPrice="", pizzaSize=""):

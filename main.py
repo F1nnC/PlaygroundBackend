@@ -5,13 +5,24 @@ from flask import render_template  # import render_template from "public" flask 
 
 # import "packages" from "this" project
 from __init__ import app,db  # Definitions initialization
+<<<<<<< HEAD
+from model.users import initUsers
+from model.players import initPlayers
+=======
+>>>>>>> 7eef7dbc4abb12d48c5acc6db463b2b706bff0a9
 
 from users import initUsers
 
 # setup APIs
+<<<<<<< HEAD
+
+from api.user import user_api # Blueprint import api definition
+from api.player import player_api
+=======
 from api.covid import covid_api # Blueprint import api definition
 from api.joke import joke_api # Blueprint import api definition
 from user import user_api # Blueprint import api definition
+>>>>>>> 7eef7dbc4abb12d48c5acc6db463b2b706bff0a9
 
 
 # setup App pages
@@ -38,7 +49,6 @@ def stub():
 
 @app.before_first_request
 def activate_job():  # activate these items 
-
     initUsers()
     
 
