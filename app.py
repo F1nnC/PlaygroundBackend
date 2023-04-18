@@ -1,9 +1,8 @@
-from flask import Flask, request
-from flask_sqlalchemy import SQLAlchemy
 from flask import Flask, request, render_template
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'https://playgroundproject.duckdns.org/'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'https://playgroundproject.duckdns.org/api.leaderboard'
 db = SQLAlchemy(app)
 
 class User(db.Model):
@@ -29,11 +28,10 @@ def add_user():
     else:
         return "Invalid input. Please provide both name and level."
 
-
-if __name__ == '__main__':
-    app.run()
-
 @app.route('/leaderboard')
 def leaderboard():
     users = User.query.order_by(User.level.desc()).all()
     return render_template('leaderboard.html', users=users)
+
+if __name__ == '__main__':
+    app.run()
