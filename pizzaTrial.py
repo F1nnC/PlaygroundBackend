@@ -2,12 +2,16 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+import os
+if not os.path.exists('sqlite.db'):
+    open('sqlite.db', 'w').close()
+
 database = 'sqlite:///sqlite.db'
+database2 = 'instance/sqlite.db'
 app.config['SQLALCHEMY_DATABASE_URI'] = database
 app.config['SECRET_KEY'] = 'SECRET_KEY'
 db = SQLAlchemy()
 db.init_app(app)
-
 
 import datetime
 from datetime import datetime
@@ -122,3 +126,169 @@ def initPizzas():
                 print(f"Records exist uid {item.pizza}, or error.")
                 
 initPizzas()
+
+import sqlite3
+
+def schema():
+    # Connecting to the database
+    conn = sqlite3.connect(database2)
+
+    # Creating a cursor object using the cursor() method
+    cursor = conn.cursor()
+
+    # Dropping PizzaMenus table if already exists.
+    cursor.execute("DROP TABLE IF EXISTS PizzaMenus")
+
+    # Creating table
+    cursor.execute('''CREATE TABLE PizzaMenus(
+                      pizza TEXT NOT NULL,
+                      pizzaPrice REAL NOT NULL,
+                      pizzaSize TEXT NOT NULL)''')
+
+    # Commit the changes
+    conn.commit()
+
+    # Close the database connection
+    conn.close()
+
+
+    #"Records inserted...""
+schema()
+
+#CREATE
+import sqlite3
+
+def create():
+    pizza = input("Enter your pizza name:")
+    pizzaPrice = input("Enter your pizzaPrice:")
+    pizzaSize = input("Enter your pizzaSize:")
+    
+    # Connect to the database file
+    conn = sqlite3.connect(database2)
+
+    # Create a cursor object to execute SQL commands
+    cursor = conn.cursor()
+
+    try:
+        # Execute an SQL command to insert data into a table
+        cursor.execute("INSERT INTO PizzaMenus (PIZZA, PIZZAPRICE, pizzaSize) VALUES (?, ?, ?)", (pizza, pizzaPrice, pizzaSize))
+        
+        # Commit the changes to the database
+        conn.commit()
+        print(f"A new user record {pizzaPrice} has been created")
+                
+    except sqlite3.Error as error:
+        print("Error while executing the INSERT:", error)
+
+
+    # Close the cursor and connection objects
+    cursor.close()
+    conn.close()
+
+
+#READ
+import sqlite3
+
+def read():
+    # Connect to the database file
+    conn = sqlite3.connect(database2)
+
+    # Create a cursor object to execute SQL queries
+    cursor = conn.cursor()
+    
+    # Execute a SELECT statement to retrieve data from a table
+    results = cursor.execute('SELECT * FROM PizzaMenus').fetchall()
+
+    # Print the results
+    if len(results) == 0:
+        print("Table is empty")
+    else:
+        for row in results:
+            print(row)
+
+    # Close the cursor and connection objects
+    cursor.close()
+    conn.close()
+    
+read()
+
+def update():
+    pizzaPrice = input("Enter pizzaPrice to update")
+    pizzaSize = input("Enter updated pizzaSize")
+    if len(pizzaSize) < 2:
+        message = "Playground"
+        pizzaSize = 'playground'
+    else:
+        message = "successfully updated"
+
+    # Connect to the database file
+    conn = sqlite3.connect(database2)
+
+    # Create a cursor object to execute SQL commands
+    cursor = conn.cursor()
+
+    try:
+        # Execute an SQL command to update data in a table
+        cursor.execute("UPDATE PizzaMenus SET pizzaSize = ? WHERE pizzaPrice = ?", (pizzaSize, pizzaPrice))
+        if cursor.rowcount == 0:
+            # The pizzaPrice was not found in the table
+            print(f"No pizzaPrice {pizzaPrice} was not found in the playground table")
+        else:
+            print(f"The row with pizzaPrice {pizzaPrice} the pizzaSize has been {message}")
+            conn.commit()
+    except sqlite3.Error as error:
+        print("Error while executing the UPDATE:", error)
+        
+    
+    # Close the cursor and connection objects
+    cursor.close()
+    conn.close()
+
+import sqlite3
+
+#DELETE
+def delete():
+    pizzaPrice = input("Enter pizzaPrice to delete")
+
+    # Connect to the database file
+    conn = sqlite3.connect(database2)
+
+    # Create a cursor object to execute SQL commands
+    cursor = conn.cursor()
+    
+    try:
+        cursor.execute("DELETE FROM PizzaMenus WHERE pizzaPrice = ?", (pizzaPrice,))
+        # get the number of rows affected.
+        cursor.execute("SELECT changes()").fetchone()[0]
+        
+        conn.commit()
+    except sqlite3.Error as error:
+        print("Error while executing the DELETE:", error)
+        
+    # Close the cursor and connection objects
+    cursor.close()
+    conn.close()
+
+def menu():
+    print()
+    operation = input("Enter: (C)reate (R)ead (U)pdate or (D)elete or (S)chema")
+    if operation.lower() == 'c':
+        create()
+    elif operation.lower() == 'r':
+        read()
+    elif operation.lower() == 'u':
+        update()
+    elif operation.lower() == 'd':
+        delete()
+    elif operation.lower() == 's':
+        schema()
+    elif len(operation)==0: # Escape Key
+        return
+    else:
+        print("Please enter c, r, u, or d") 
+    menu() # recursion, repeat menu
+        
+try:
+    menu() # start menu
+except:
+    print("Perform Jupyter 'Run All' prior to starting menu")
