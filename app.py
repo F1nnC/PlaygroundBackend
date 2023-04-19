@@ -1,37 +1,27 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'https://playgroundproject.duckdns.org/api.leaderboard'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///leaderboard.db'
 db = SQLAlchemy(app)
 
-class User(db.Model):
+class Player(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
-    level = db.Column(db.Integer, nullable=False)
+    level = db.Column(db.String(50), nullable=False)
 
-    def __repr__(self):
-        return f"User(name='{self.name}', level={self.level})"
-
-with app.app_context():
-    db.create_all()
-
-@app.route('/add_user', methods=['POST'])
-def add_user():
-    name = request.form.get('name')
-    level = request.form.get('level')
-    if name and level:
-        user = User(name=name, level=level)
-        db.session.add(user)
-        db.session.commit()
-        return "User added to leaderboard."
-    else:
-        return "Invalid input. Please provide both name and level."
-
-@app.route('/leaderboard')
+@app.route('/api/leaderboard', methods=['GET'])
 def leaderboard():
-    users = User.query.order_by(User.level.desc()).all()
-    return render_template('leaderboard.html', users=users)
+    players = Player.query.order_by(Player.id).all()
+    leaderboard = []
+    for player in players:
+        leaderboard.append({'id': player.id, 'name': player.name, 'level': player.level})
+    return jsonify({'leaderboard': leaderboard})
 
-if __name__ == '__main__':
-    app.run()
+@app.route('/api/leaderboard', methods=['POST'])
+def add_player():
+    player_data = request.get_json()
+    new_player = Player(name=player_data['name'], level=player_data['level'])
+    db.session.add(new_player)
+    db.session.commit()
+    return 'Player added to the leaderboard'
