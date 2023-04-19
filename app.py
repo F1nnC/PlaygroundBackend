@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///leaderboard.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'https://playgroundproject.duckdns.org/api/leaderboard'
 db = SQLAlchemy(app)
 
 class Player(db.Model):
