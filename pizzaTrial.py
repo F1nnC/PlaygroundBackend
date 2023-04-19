@@ -13,8 +13,6 @@ app.config['SECRET_KEY'] = 'SECRET_KEY'
 db = SQLAlchemy()
 db.init_app(app)
 
-
-
 import datetime
 from datetime import datetime
 import json
@@ -272,6 +270,7 @@ def delete():
     conn.close()
 
 def menu():
+    print()
     operation = input("Enter: (C)reate (R)ead (U)pdate or (D)elete or (S)chema")
     if operation.lower() == 'c':
         create()
