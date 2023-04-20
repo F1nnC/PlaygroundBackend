@@ -1,37 +1,18 @@
 import threading
-
+from app import add_player, createTestingData
 # import "packages" from flask
 from flask import render_template  # import render_template from "public" flask libraries
 
 # import "packages" from "this" project
 from __init__ import app,db  # Definitions initialization
-<<<<<<< HEAD
-from model.users import initUsers
-from model.players import initPlayers
-=======
->>>>>>> 7eef7dbc4abb12d48c5acc6db463b2b706bff0a9
-
-from users import initUsers
-
-# setup APIs
-<<<<<<< HEAD
-
-from api.user import user_api # Blueprint import api definition
-from api.player import player_api
-=======
-from api.covid import covid_api # Blueprint import api definition
-from api.joke import joke_api # Blueprint import api definition
-from user import user_api # Blueprint import api definition
->>>>>>> 7eef7dbc4abb12d48c5acc6db463b2b706bff0a9
 
 
 # setup App pages
 from projects.projects import app_projects # Blueprint directory import projects definition
 
 # register URIs
-app.register_blueprint(joke_api) # register api routes
-app.register_blueprint(covid_api) # register api routes
-app.register_blueprint(user_api) # register api routes
+app.register_blueprint(add_player)
+
 app.register_blueprint(app_projects) # register app pages
 
 @app.errorhandler(404)  # catch for URL not found
@@ -48,9 +29,8 @@ def stub():
     return render_template("stub.html")
 
 @app.before_first_request
-def activate_job():  # activate these items 
-    initUsers()
-    
+def activate_job():
+    createTestingData()
 
 # this runs the application on the development server
 if __name__ == "__main__":
