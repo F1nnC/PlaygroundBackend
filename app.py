@@ -23,7 +23,7 @@ class PlayerAPI(Resource):
         db.session.commit()
         return jsonify({'message': 'Player added successfully.'})
 
-api.add_resource(player_leaderboard_api, '/', methods = ['GET', 'POST'])
+api.add_resource(PlayerAPI, '/', endpoint='leaderboard')
 
 def create_testing_data():
     with app.app_context():
@@ -43,6 +43,7 @@ def create_testing_data():
 @app.before_first_request
 def activate_job():
     create_testing_data()
+
 @app.route('/view-db')
 def view_db():
     players = Player.query.all()
@@ -52,8 +53,11 @@ def view_db():
         result.append(player_data)
     return jsonify(result)
 
-
 app.register_blueprint(player_leaderboard_api, url_prefix='/api')
 
-
+if __name__ == "__main__":
+    # change name for testing
+    from flask_cors import CORS
+    cors = CORS(app)
+    app.run(debug=True, host="0.0.0.0", port=5000)
 
