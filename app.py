@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request, Flask
+from flask import Blueprint, jsonify, request, Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import IntegrityError
 from flask_restful import Api, Resource
@@ -12,8 +12,8 @@ class Player(db.Model):
     name = db.Column(db.String(50), nullable=False)
     level = db.Column(db.Integer, nullable=False)
 
-player_api = Blueprint('api', __name__, url_prefix='/api')
-api = Api(player_api)
+player_leaderboard_api = Blueprint('player_leaderboard_api', __name__, url_prefix='/api')
+api = Api(player_leaderboard_api)
 
 class PlayerAPI(Resource):
     def post(self):
@@ -43,6 +43,17 @@ def create_testing_data():
 @app.before_first_request
 def activate_job():
     create_testing_data()
+@app.route('/view-db')
+def view_db():
+    players = Player.query.all()
+    result = []
+    for player in players:
+        player_data = {'name': player.name, 'level': player.level}
+        result.append(player_data)
+    return jsonify(result)
 
-player_api.register(api)
+
+app.register_blueprint(player_leaderboard_api, url_prefix='/api')
+
+
 

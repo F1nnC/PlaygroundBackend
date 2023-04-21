@@ -4,11 +4,11 @@ from flask_restful import Api, Resource # used for REST API building
 from model.players import Player
 
 # Change variable name and API name and prefix
-player_api = Blueprint('player_api', __name__,
+player = Blueprint('player', __name__,
                    url_prefix='/api/players')
 
 # API docs https://flask-restful.readthedocs.io/en/latest/api.html
-api = Api(player_api)
+api = Api(player)
 
 class PlayerAPI:     
     class Action(Resource):
