@@ -24,12 +24,6 @@ class PlayerAPI(Resource):
         result = [{'name': player.name, 'level': player.level} for player in players]
         return jsonify(result)
 
-    def post(self):
-        data = request.json
-        player = Player(name=data['name'], level=data['level'])
-        db.session.add(player)
-        db.session.commit()
-        return jsonify({'message': 'Player added successfully.'})
 
     def put(self):
         data = request.json
@@ -38,6 +32,12 @@ class PlayerAPI(Resource):
             player.level += 1
             db.session.commit()
             return jsonify({'message': 'Player level updated successfully.'})
+        else: 
+            data = request.json
+            player = Player(name=data['name'], level=data['level'])
+            db.session.add(player)
+            db.session.commit()
+            return jsonify({'message': 'Player added successfully.'})
         return make_response(jsonify({'error': 'Player not found.'}), 404)
 
 class WinAPI(Resource):
