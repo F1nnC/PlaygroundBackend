@@ -1,4 +1,4 @@
-from app import create_testing_data, Player, player_leaderboard_api, app
+from app import Player, player_leaderboard_api, app
 from flask import render_template
 from app import db
 
