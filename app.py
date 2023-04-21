@@ -23,6 +23,19 @@ class PlayerAPI(Resource):
         db.session.commit()
         return jsonify({'message': 'Player added successfully.'})
 
+    def put(self):
+        data = request.json
+        player = Player.query.filter_by(name=data['name']).first()
+        if player:
+            player.level += 1
+            db.session.commit()
+            return jsonify({'message': 'Player level updated successfully.'})
+        else:
+            return jsonify({'error': 'Player not found.'}), 404
+
+
+api.add_resource(PlayerAPI, '/win', endpoint='win')
+
 api.add_resource(PlayerAPI, '/', endpoint='leaderboard')
 
 def create_testing_data():
