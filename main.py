@@ -1,19 +1,14 @@
 import threading
-from app import add_player, createTestingData
+from app import create_testing_data, Player, player_api
+
 # import "packages" from flask
-from flask import render_template  # import render_template from "public" flask libraries
+from flask import render_template
 
 # import "packages" from "this" project
-from __init__ import app,db  # Definitions initialization
-
+from app import app, db
 
 # setup App pages
-from projects.projects import app_projects # Blueprint directory import projects definition
-
-# register URIs
-app.register_blueprint(add_player)
-
-app.register_blueprint(app_projects) # register app pages
+app.register_blueprint(player_api)
 
 @app.errorhandler(404)  # catch for URL not found
 def page_not_found(e):
@@ -28,13 +23,10 @@ def index():
 def stub():
     return render_template("stub.html")
 
-@app.before_first_request
-def activate_job():
-    createTestingData()
-
 # this runs the application on the development server
 if __name__ == "__main__":
     # change name for testing
     from flask_cors import CORS
     cors = CORS(app)
     app.run(debug=True, host="0.0.0.0", port=5000)
+
