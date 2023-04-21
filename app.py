@@ -23,7 +23,7 @@ class PlayerAPI(Resource):
         db.session.commit()
         return jsonify({'message': 'Player added successfully.'})
 
-api.add_resource(PlayerAPI, '/leaderboard')
+api.add_resource(player_leaderboard_api, '/', methods = ['GET', 'POST'])
 
 def create_testing_data():
     with app.app_context():
