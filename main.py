@@ -3,6 +3,11 @@ from flask import render_template
 from app import db
 
 
+# Initialize the SQLAlchemy object to work with the Flask app instance
+db.init_app(app)
+
+
+
 
 @app.errorhandler(404)  
 def page_not_found(e):
@@ -23,3 +28,6 @@ if __name__ == "__main__":
     from flask_cors import CORS
     cors = CORS(app)
     app.run(debug=True, host="0.0.0.0", port=5000)
+
+# Initialize the SQLAlchemy object to work with the Flask app instance
+db.init_app(app)
