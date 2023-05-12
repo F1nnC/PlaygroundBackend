@@ -235,7 +235,7 @@ def update():
             print(f"No pizzaPrice {pizzaPrice} was not found in the playground table")
         else:
             print(f"The row with pizzaPrice {pizzaPrice} the pizzaSize has been {message}")
-            conn.commit()
+            conn.commit()                                                   
     except sqlite3.Error as error:
         print("Error while executing the UPDATE:", error)
         
