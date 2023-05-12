@@ -217,12 +217,12 @@ def update():
 
     try:
         # Execute an SQL command to update data in a table
-        cursor.execute("UPDATE PizzaMenus SET pizzaSize = ? WHERE pizzaPrice = ?", (pizzaSize, pizzaPrice))
+        cursor.execute("UPDATE PizzaMenus SET pizzaSize = ? WHERE pizzaPrice = ?", (pizzaSize, pizzaType))
         if cursor.rowcount == 0:
             # The pizzaPrice was not found in the table
-            print(f"No pizzaPrice {pizzaPrice} was not found in the playground table")
+            print(f"No pizzaPrice {pizzaType} was not found in the playground table")
         else:
-            print(f"The row with pizzaPrice {pizzaPrice} the pizzaSize has been {message}")
+            print(f"The row with pizzaPrice {pizzaType} the pizzaSize has been {message}")
             conn.commit()
     except sqlite3.Error as error:
         print("Error while executing the UPDATE:", error)
@@ -236,7 +236,7 @@ import sqlite3
 
 #DELETE
 def delete():
-    pizzaPrice = input("Enter pizzaPrice to delete")
+    pizzaType = input("Enter pizzaPrice to delete")
 
     # Connect to the database file
     conn = sqlite3.connect(database2)
@@ -245,7 +245,7 @@ def delete():
     cursor = conn.cursor()
     
     try:
-        cursor.execute("DELETE FROM PizzaMenus WHERE pizzaPrice = ?", (pizzaPrice,))
+        cursor.execute("DELETE FROM PizzaMenus WHERE pizzaPrice = ?", (pizzaType,))
         # get the number of rows affected.
         cursor.execute("SELECT changes()").fetchone()[0]
         
