@@ -96,7 +96,7 @@ class Order(db.Model):
         db.session.commit()
         return None
     
-def initPizzas():
+def initOrders():
     with app.app_context():
         db.create_all()
         p1 = Order(orderName='Joe', pizzaType='cheese', address='1313 Disneyland Dr, Anaheim, CA 92802')
@@ -105,13 +105,13 @@ def initPizzas():
 
         orders = [p1, p2]
 
-        for item in Orders:
+        for item in orders:
             try:
                 object = item.create()
-                print(f"Created new uid {object.order}")
+                print(f"Created new uid {object.orderName}")
             except:  # error raised if object nit created
                 '''fails with bad or duplicate data'''
-                print(f"Records exist uid {item.order}, or error.")
+                print(f"Records exist uid {item.orderName}, or error.")
                 
 initOrders()
 
@@ -159,7 +159,7 @@ def create():
 
     try:
         # Execute an SQL command to insert data into a table
-        cursor.execute("INSERT INTO PizzaOrders (PIZZA, PIZZATYPE, ADDRESS) VALUES (?, ?, ?)", (orderName, pizzaType, address))
+        cursor.execute("INSERT INTO PizzaOrders (ORDERNAME, PIZZATYPE, ADDRESS) VALUES (?, ?, ?)", (orderName, pizzaType, address))
         
         # Commit the changes to the database
         conn.commit()
@@ -217,7 +217,7 @@ def update():
 
     try:
         # Execute an SQL command to update data in a table
-        cursor.execute("UPDATE PizzaMenus SET address = ? WHERE pizzaType = ?", (address, pizzaType))
+        cursor.execute("UPDATE PizzaOrders SET address = ? WHERE pizzaType = ?", (address, pizzaType))
         if cursor.rowcount == 0:
             # The pizzaType was not found in the table
             print(f"No pizzaType {pizzaType} was not found in the playground table")
