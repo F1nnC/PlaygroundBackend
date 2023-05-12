@@ -12,19 +12,17 @@ class PizzaUsers(UserMixin, db.Model):
     # Define the Users schema
     uid = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), unique=True, nullable=False)
-    score = db.Column(db.String(255), unique=True, nullable=False)
+    score = db.Column(db.Integer, nullable=False)
     games = db.Column(db.String(255), unique = False, nullable=False)
 
 
-    def __init__(self, name='', uid="0", password="null", dob="11-11-1111"):
+    def __init__(self, name='', uid="0", score=0):
         self.uid = make_id()
         self.name = name
-        self.dob = dob
         self.games = ""
-        self.set_password(password)
 
     def __repr__(self):
-        return "Users(" + str(self.uid) + "," + self.name + "," + str(self.score) +  str(self.games) + ")"
+        return "Users(" + str(self.uid) + "," + self.name + "," + self.score +  str(self.games) + ")"
 
 
     def create(self):
@@ -81,8 +79,8 @@ def createTestingData():
     with app.app_context():
         db.init_app(app)
         db.create_all()
-        u1 = PizzaUsers(name='F1nnc', password="123", uid="12")
-        u2 = PizzaUsers(name='Gene', password="123", uid="123")
+        u1 = PizzaUsers(name='F1nnc', uid="12", score = "10")
+        u2 = PizzaUsers(name='Gene', uid="123", score = "5" )
         try:
             '''add user/note data to table'''
             u1.create()
@@ -94,6 +92,13 @@ def createTestingData():
             db.session.remove()
             print(f"Records exist, duplicate email, or error: {u1.uid}")
 
+def win(uid):
+    user = PizzaUsers.query.filter_by(uid=uid).first()
+    if user:
+        user.score += 1
+        db.session.commit()
+    else:
+        print("Invalid user")
 
 
 if __name__ == "__main__":
