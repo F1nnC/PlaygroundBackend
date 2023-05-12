@@ -52,8 +52,8 @@ class Order(db.Model):
         return self._address == address
     
     @property
-    def pizzaPrice(self):
-        return self._pizzaPrice
+    def pizzaType(self):
+        return self._pizzaType
     
     @pizzaType.setter
     def pizzaType(self, pizzaType):
@@ -82,7 +82,7 @@ class Order(db.Model):
     def update(self, orderName="", pizzaType="", address=""):
         """only updates values with length"""
         if len(orderName) > 0:
-            self.pizza = orderName
+            self.orderName = orderName
         if len(pizzaType) > 0:
             self.pizzaType = pizzaType
         if len(address) > 0:
@@ -124,14 +124,14 @@ def schema():
     # Creating a cursor object using the cursor() method
     cursor = conn.cursor()
 
-    # Dropping PizzaMenus table if already exists.
+    # Dropping pizzaOrders table if already exists.
     cursor.execute("DROP TABLE IF EXISTS PizzaOrders")
 
     # Creating table
     cursor.execute('''CREATE TABLE PizzaOrders(
                       orderName TEXT NOT NULL,
                       pizzaType REAL NOT NULL,
-                      Adress TEXT NOT NULL)''')
+                      address TEXT NOT NULL)''')
 
     # Commit the changes
     conn.commit()
@@ -159,7 +159,7 @@ def create():
 
     try:
         # Execute an SQL command to insert data into a table
-        cursor.execute("INSERT INTO PizzaMenus (PIZZA, PIZZAPRICE, pizzaSize) VALUES (?, ?, ?)", (orderName, pizzaType, address))
+        cursor.execute("INSERT INTO PizzaOrders (PIZZA, PIZZATYPE, ADDRESS) VALUES (?, ?, ?)", (orderName, pizzaType, address))
         
         # Commit the changes to the database
         conn.commit()
@@ -205,7 +205,7 @@ def update():
     address = input("Enter updated address")
     if len(address) < 2:
         message = "Playground"
-        pizzaSize = 'playground'
+        address = 'playground'
     else:
         message = "successfully updated"
 
@@ -217,12 +217,12 @@ def update():
 
     try:
         # Execute an SQL command to update data in a table
-        cursor.execute("UPDATE PizzaMenus SET pizzaSize = ? WHERE pizzaPrice = ?", (pizzaSize, pizzaType))
+        cursor.execute("UPDATE PizzaMenus SET address = ? WHERE pizzaType = ?", (address, pizzaType))
         if cursor.rowcount == 0:
-            # The pizzaPrice was not found in the table
-            print(f"No pizzaPrice {pizzaType} was not found in the playground table")
+            # The pizzaType was not found in the table
+            print(f"No pizzaType {pizzaType} was not found in the playground table")
         else:
-            print(f"The row with pizzaPrice {pizzaType} the pizzaSize has been {message}")
+            print(f"The row with pizzaType {pizzaType} the address has been {message}")
             conn.commit()
     except sqlite3.Error as error:
         print("Error while executing the UPDATE:", error)
@@ -236,7 +236,7 @@ import sqlite3
 
 #DELETE
 def delete():
-    pizzaType = input("Enter pizzaPrice to delete")
+    pizzaType = input("Enter pizzaType to delete")
 
     # Connect to the database file
     conn = sqlite3.connect(database2)
@@ -245,7 +245,7 @@ def delete():
     cursor = conn.cursor()
     
     try:
-        cursor.execute("DELETE FROM PizzaMenus WHERE pizzaPrice = ?", (pizzaType,))
+        cursor.execute("DELETE FROM PizzaOrders WHERE pizzaType = ?", (pizzaType,))
         # get the number of rows affected.
         cursor.execute("SELECT changes()").fetchone()[0]
         
