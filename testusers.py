@@ -14,19 +14,17 @@ class PizzaUsers(UserMixin, db.Model):
     name = db.Column(db.String(255), unique=True, nullable=False)
     score = db.Column(db.String(255), unique=True, nullable=False)
     games = db.Column(db.String(255), unique = False, nullable=False)
-    # Defines a relationship between User record and Notes table, one-to-many (one user to many notes)
-    # notes = db.relationship("Notes", cascade='all, delete', backref='users', lazy=True)
 
 
-    def __init__(self, name='', uid="0", password="null", dob="11-11-1111", games=""):
+    def __init__(self, name='', uid="0", password="null", dob="11-11-1111"):
         self.uid = make_id()
         self.name = name
         self.dob = dob
         self.games = ""
         self.set_password(password)
-        
+
     def __repr__(self):
-        return "Users(" + str(self.uid) + "," + self.name + "," + str(self.dob) +  str(self.games) + ")"
+        return "Users(" + str(self.uid) + "," + self.name + "," + str(self.score) +  str(self.games) + ")"
 
 
     def create(self):
@@ -38,18 +36,19 @@ class PizzaUsers(UserMixin, db.Model):
             db.session.remove()
             return None
 
-    def update(self, name="", uid="", password="", dob=""):
+    def update(self, name="", uid="", score = ""):
         """only updates values with length"""
         if len(name) > 0:
             self.name = name
         if len(uid) > 0:
             self.uid = uid
-        if len(password) > 0:
-            self.set_password(password)
-        if len(dob) > 0:
-            self.dob = dob
+        if len(score) > 0:
+            self.score = score
         db.session.commit()
+
         return self
+
+
 
 
 def make_id():
@@ -61,6 +60,12 @@ def make_id():
     if (uid < 100):
         return 100
     return uid + 1
+
+def getScore(score):
+    users = PizzaUsers.query.all() 
+    score = 0 
+    for user in users: 
+        if(user.get_id() == score):
 
 
 def getUser(uid):
