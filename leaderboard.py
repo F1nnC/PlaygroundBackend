@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from flask_restful import Api, Resource
 from datetime import datetime
-from model_chess import getUser, getName
+from testusers import getUser, getName
 
 LeaderboardAPI = Blueprint('LeaderboardAPI.i', __name__, url_prefix='/api/leaderboard')
 api = Api(LeaderboardAPI)
