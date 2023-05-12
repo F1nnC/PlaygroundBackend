@@ -12,7 +12,7 @@ api = Api(user_api)
 class UserAPI:        
     class _Create(Resource):
         def post(self):
-            ''' Read data for json body '''
+            
             body = request.get_json()
             
             ''' Avoid garbage in, error checking '''
