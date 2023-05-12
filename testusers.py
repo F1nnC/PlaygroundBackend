@@ -66,6 +66,7 @@ def getScore(score):
     score = 0 
     for user in users: 
         if(user.get_id() == score):
+            return score
 
 
 def getUser(uid):
