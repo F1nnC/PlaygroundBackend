@@ -128,7 +128,7 @@ def schema():
     cursor.execute("DROP TABLE IF EXISTS PizzaMenus")
 
     # Creating table
-    cursor.execute('''CREATE TABLE PizzaMenus(
+    cursor.execute('''CREATE TABLE PizzaOrders(
                       pizza TEXT NOT NULL,
                       pizzaPrice REAL NOT NULL,
                       pizzaSize TEXT NOT NULL)''')
