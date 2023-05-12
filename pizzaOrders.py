@@ -113,7 +113,7 @@ def initPizzas():
                 '''fails with bad or duplicate data'''
                 print(f"Records exist uid {item.order}, or error.")
                 
-initPizzas()
+initOrders()
 
 import sqlite3
 
@@ -125,13 +125,13 @@ def schema():
     cursor = conn.cursor()
 
     # Dropping PizzaMenus table if already exists.
-    cursor.execute("DROP TABLE IF EXISTS PizzaMenus")
+    cursor.execute("DROP TABLE IF EXISTS PizzaOrders")
 
     # Creating table
     cursor.execute('''CREATE TABLE PizzaOrders(
-                      pizza TEXT NOT NULL,
-                      pizzaPrice REAL NOT NULL,
-                      pizzaSize TEXT NOT NULL)''')
+                      orderName TEXT NOT NULL,
+                      pizzaType REAL NOT NULL,
+                      Adress TEXT NOT NULL)''')
 
     # Commit the changes
     conn.commit()
@@ -147,9 +147,9 @@ schema()
 import sqlite3
 
 def create():
-    pizza = input("Enter your pizza name:")
-    pizzaPrice = input("Enter your pizzaPrice:")
-    pizzaSize = input("Enter your pizzaSize:")
+    orderName = input("Enter your name:")
+    pizzaType = input("Enter what pizza you want:")
+    address = input("Enter your address for delivery:")
     
     # Connect to the database file
     conn = sqlite3.connect(database2)
@@ -159,11 +159,11 @@ def create():
 
     try:
         # Execute an SQL command to insert data into a table
-        cursor.execute("INSERT INTO PizzaMenus (PIZZA, PIZZAPRICE, pizzaSize) VALUES (?, ?, ?)", (pizza, pizzaPrice, pizzaSize))
+        cursor.execute("INSERT INTO PizzaMenus (PIZZA, PIZZAPRICE, pizzaSize) VALUES (?, ?, ?)", (orderName, pizzaType, address))
         
         # Commit the changes to the database
         conn.commit()
-        print(f"A new user record {pizzaPrice} has been created")
+        print(f"A new user record {pizzaType} has been created")
                 
     except sqlite3.Error as error:
         print("Error while executing the INSERT:", error)
@@ -185,7 +185,7 @@ def read():
     cursor = conn.cursor()
     
     # Execute a SELECT statement to retrieve data from a table
-    results = cursor.execute('SELECT * FROM PizzaMenus').fetchall()
+    results = cursor.execute('SELECT * FROM PizzaOrders').fetchall()
 
     # Print the results
     if len(results) == 0:
@@ -201,9 +201,9 @@ def read():
 read()
 
 def update():
-    pizzaPrice = input("Enter pizzaPrice to update")
-    pizzaSize = input("Enter updated pizzaSize")
-    if len(pizzaSize) < 2:
+    pizzaType = input("Enter pizzaType to update")
+    address = input("Enter updated address")
+    if len(address) < 2:
         message = "Playground"
         pizzaSize = 'playground'
     else:
