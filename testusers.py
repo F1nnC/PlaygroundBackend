@@ -1,9 +1,11 @@
-from flask_login import UserMixin
-from flask import Blueprint, request, jsonify
 import os, json
 from __init__ import db, app
 from sqlalchemy.exc import IntegrityError
 from werkzeug.security import generate_password_hash, check_password_hash
+
+from flask_login import UserMixin
+from flask import Blueprint, request, jsonify
+
 
 
 class PizzaUsers(UserMixin, db.Model):
@@ -13,42 +15,139 @@ class PizzaUsers(UserMixin, db.Model):
     uid = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), unique=True, nullable=False)
     score = db.Column(db.Integer, nullable=False)
+    password = db.Column(db.String(255), unique=False, nullable=False)
+    dob = db.Column(db.String(255), unique = False, nullable=False)
     games = db.Column(db.String(255), unique = False, nullable=False)
+    # Defines a relationship between User record and Notes table, one-to-many (one user to many notes)
+    # notes = db.relationship("Notes", cascade='all, delete', backref='users', lazy=True)
 
 
-    def __init__(self, name='', uid="0", score=0):
+    def __init__(self, name='', uid="0", password="null", dob="11-11-1111", games="", score="0"):
         self.uid = make_id()
         self.name = name
-        self.games = ""
+        self.dob = dob
+        self.score = score
+        self.games = games
+        self.set_password(password)
 
+    # returns a string representation of object, similar to java toString()
     def __repr__(self):
-        return "Users(" + str(self.uid) + "," + self.name + "," + self.score +  str(self.games) + ")"
+        return "Users(" + str(self.uid) + "," + self.name + "," + str(self.dob) + "," + self.score + "," +  str(self.games) + ")"
 
-
+    # CRUD create/add a new record to the table
+    # returns self or None on error
     def create(self):
         try:
-            db.session.add(self)  
-            db.session.commit()  
+            # creates a person object from Users(db.Model) class, passes initializers
+            db.session.add(self)  # add prepares to persist person object to Users table
+            db.session.commit()  # SqlAlchemy "unit of work pattern" requires a manual commit
             return self
         except IntegrityError:
             db.session.remove()
             return None
 
-    def update(self, name="", uid="", score = ""):
+    # CRUD read converts self to dictionary
+    # returns dictionary
+    def read(self):
+        return {
+            "uid": self.uid,
+            "name": self.name,
+            "password": self.password,
+            "dob": self.dob,
+            "score": self.score
+        }
+
+    def read2(self):
+        return {
+            "uid": self.uid,
+            "name": self.name,
+            "dob": self.dob,
+        }
+
+    # CRUD update: updates users name, password, phone
+    # returns self
+    def update(self, name="", uid="", password="", dob="", score = ""):
         """only updates values with length"""
         if len(name) > 0:
             self.name = name
-        if len(uid) > 0:
-            self.uid = uid
         if len(score) > 0:
             self.score = score
+        if len(uid) > 0:
+            self.uid = uid
+        if len(password) > 0:
+            self.set_password(password)
+        if len(dob) > 0:
+            self.dob = dob
         db.session.commit()
-
         return self
 
+    # CRUD delete: remove self
+    # None
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+        return None
+# Code from different part of the project
+    def deleteGame(self, date):
+        games = self.games.split('#')
+        games.pop(0)
+        for game in games:
+            gameStr = game.replace("\'", "\"")
+            thing = json.loads(gameStr)
+            if thing['date'] == date:
+                games.remove(game)
+        gameString = ""
+        for el in games:
+            gameString += "#" + str(el)
+        self.games = gameString
+        db.session.commit()
+        return gameString
+        
 
 
 
+    def set_password(self, password):
+        """Create hashed password."""
+        self.password = generate_password_hash(password, method='sha256')
+
+
+    def is_password_match(self, password):
+        """Check hashed password."""
+        result = check_password_hash(self.password, password)
+        return result
+
+
+    def get_id(self):
+        return self.uid
+    
+    def get_name(self):
+        return self.name
+
+    def update_games(self, game):
+        self.games += "#" + str(game)
+        try:
+            db.session.commit()
+            return self
+        except IntegrityError:
+            db.session.remove()
+            return None
+
+def getUser(uid):
+    users = PizzaUsers.query.all()
+    for user in users:
+        if(user.get_id() == uid):
+            return user
+    else:
+        return "Invalid user"
+
+def getName(name):
+    users = PizzaUsers.query.all()
+    for user in users:
+        if(user.get_name() == name):
+            return user
+    else: 
+        return None
+        
 def make_id():
     users = PizzaUsers.query.all()
     uid = 0
@@ -59,28 +158,19 @@ def make_id():
         return 100
     return uid + 1
 
-def getScore(score):
-    users = PizzaUsers.query.all() 
-    score = 0 
-    for user in users: 
-        if(user.get_id() == score):
-            return score
-
-
-def getUser(uid):
-    users = PizzaUsers.query.all()
-    for user in users:
-        if(user.get_id() == uid):
-            return user
-    else:
-        return "Invalid user"
-
+def getGame(uid, date):
+    user = getUser(uid)
+    games = user.games.split('#')
+    for game in games:
+        if game.date == date:
+            return game
+    
 def createTestingData():
     with app.app_context():
         db.init_app(app)
         db.create_all()
-        u1 = PizzaUsers(name='F1nnc', uid="12", score = "10")
-        u2 = PizzaUsers(name='Gene', uid="123", score = "5" )
+        u1 = PizzaUsers(name='Toby', password="lmaobad", uid="12")
+        u2 = PizzaUsers(name='Gene', password="WRizz", uid="123")
         try:
             '''add user/note data to table'''
             u1.create()
@@ -92,14 +182,6 @@ def createTestingData():
             db.session.remove()
             print(f"Records exist, duplicate email, or error: {u1.uid}")
 
-def win(uid):
-    user = PizzaUsers.query.filter_by(uid=uid).first()
-    if user:
-        user.score += 1
-        db.session.commit()
-    else:
-        print("Invalid user")
-
-
 if __name__ == "__main__":
     createTestingData()
+    

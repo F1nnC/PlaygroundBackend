@@ -3,9 +3,9 @@ from flask_restful import Api, Resource # used for REST API building
 from datetime import datetime
 from model_chess import getUser, getName
 
-from model_chess import Users
+from model_chess import ChessUsers
 
-chess_user_api = Blueprint('user_api', __name__,
+chess_user_api = Blueprint('chess_user_api', __name__,
                    url_prefix='/api/users')
 
 # API docs https://flask-restful.readthedocs.io/en/latest/api.html
@@ -30,7 +30,7 @@ class UserAPI:
             dob = body.get('dob')
 
             ''' #1: Key code block, setup USER OBJECT '''
-            uo = Users(name=name)
+            uo = ChessUsers(name=name)
             
             ''' Additional garbage error checking '''
             # set password if provided
@@ -43,7 +43,6 @@ class UserAPI:
                 except:
                     return {'message': f'Date of birth format error {dob}, must be mm-dd-yyyy'}, 210
             
-            ''' #2: Key Code block to add user to database '''
             # create user in database
             user = uo.create()
             # success returns json of user
@@ -54,7 +53,7 @@ class UserAPI:
 
     class _Read(Resource):
         def get(self):
-            users = Users.query.all()    # read/extract all users from database
+            users = ChessUsers.query.all()    # read/extract all users from database
             json_ready = [user.read() for user in users]  # prepare output in json
             return jsonify(json_ready)  # jsonify creates Flask response object, more specific to APIs than json.dumps
 

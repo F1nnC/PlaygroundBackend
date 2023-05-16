@@ -1,12 +1,29 @@
 from app import Player, player_leaderboard_api, app
-from flask import render_template
-from app import db
+import threading
+
+# import "packages" from flask
+from flask import render_template  # import render_template from "public" flask libraries
+
+# import "packages" from "this" project
+from __init__ import app  # Definitions initialization
+from model_chess import createTestingData
+
+# setup APIs
+
+from superCoolFile import chess_user_api
+# setup App pages
+from projects.projects import app_projects # Blueprint directory import projects definition
+from login import NameAPI
+from testusers import createTestingData
 
 
-# Initialize the SQLAlchemy object to work with the Flask app instance
-db.init_app(app)
+# register URIs
 
 
+app.register_blueprint(chess_user_api)
+app.register_blueprint()
+app.register_blueprint(app_projects) # register app pages
+app.register_blueprint(NameAPI)
 
 
 @app.errorhandler(404)  
