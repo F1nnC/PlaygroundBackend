@@ -10,17 +10,16 @@ from model_chess import createTestingData
 
 # setup APIs
 
-from superCoolFile import chess_user_api
+from superCoolFile import pizza_user_api
 # setup App pages
 from projects.projects import app_projects # Blueprint directory import projects definition
 from login import NameAPI
 from testusers import createTestingData
-
-
+from testusers import db
 # register URIs
 
 
-app.register_blueprint(chess_user_api)
+app.register_blueprint(pizza_user_api)
 app.register_blueprint()
 app.register_blueprint(app_projects) # register app pages
 app.register_blueprint(NameAPI)

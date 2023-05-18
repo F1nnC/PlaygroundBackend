@@ -5,5 +5,5 @@ from testusers import getUser, getName, PizzaUsers
 
 
 
-chess_user_api = Blueprint('chess_user_api', __name__,
-                   url_prefix='/api/chess_users')
+chess_user_api = Blueprint('pizza_user_api', __name__,
+                   url_prefix='/api/pizza_users')

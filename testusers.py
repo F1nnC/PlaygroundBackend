@@ -9,7 +9,7 @@ from flask import Blueprint, request, jsonify
 
 
 class PizzaUsers(UserMixin, db.Model):
-    __tablename__ = 'chess_users'
+    __tablename__ = 'pizza_users'
     
     # Define the Users schema
     uid = db.Column(db.Integer, primary_key=True)
@@ -157,6 +157,14 @@ def make_id():
     if (uid < 100):
         return 100
     return uid + 1
+
+def getScore(uid):
+    user = getUser(uid)
+    if user != "Invalid user":
+        return user.score
+    else:
+        return "Invalid user"
+
 
 def getGame(uid, date):
     user = getUser(uid)

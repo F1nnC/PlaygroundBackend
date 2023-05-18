@@ -1,15 +1,16 @@
 from flask import Blueprint, request, jsonify
 from flask_restful import Api, Resource # used for REST API building
 from datetime import datetime
-from model_chess import getUser, getName
 
-from model_chess import ChessUsers
 
-chess_user_api = Blueprint('chess_user_api', __name__,
+
+from testusers import PizzaUsers
+from testusers import getName, getUser, getScore 
+pizza_user_api = Blueprint('pizza_user_api', __name__,
                    url_prefix='/api/users')
 
 # API docs https://flask-restful.readthedocs.io/en/latest/api.html
-api = Api(chess_user_api)
+api = Api(pizza_user_api)
 class UserAPI:        
     class _Create(Resource):
         def post(self):
@@ -30,7 +31,7 @@ class UserAPI:
             dob = body.get('dob')
 
             ''' #1: Key code block, setup USER OBJECT '''
-            uo = ChessUsers(name=name)
+            uo = PizzaUsers(name=name)
             
             ''' Additional garbage error checking '''
             # set password if provided
@@ -53,22 +54,10 @@ class UserAPI:
 
     class _Read(Resource):
         def get(self):
-            users = ChessUsers.query.all()    # read/extract all users from database
+            users = PizzaUsers.query.all()    # read/extract all users from database
             json_ready = [user.read() for user in users]  # prepare output in json
             return jsonify(json_ready)  # jsonify creates Flask response object, more specific to APIs than json.dumps
 
-
-    class _UpdateChessGame(Resource):
-        def post(self):
-            body = request.get_json(force=True)
-            user1 = getName(body.get('uid1'))
-            user1.update_games(body)
-            try:
-                user2 = getName(body.get('uid2'))
-                user2.update_games(body)
-            except:
-                return "second user id is invalid"
-            return body.get('uid1')
 
     class _DeleteGame(Resource):
         def post(self):
@@ -84,29 +73,12 @@ class UserAPI:
             user = getUser(uid)
             user.delete()
             return 'deleted user with uid ' + str(uid)
-    
-    class _GetGame(Resource):
-        def get(self):
-            body = request.get_json()
-            uid = body.get('uid')
-            date = body.get('date')
-            user = getUser(uid)
-            games = user.games.split('#')
-            for game in games:
-                if game.date == date:
-                    return game
 
-    class _GetGames(Resource):
-        def get(self, name):
-            user = getName(name)
-            games = user.games.split('#')
-            return games
 
     # building RESTapi endpoint
     api.add_resource(_Create, '/create')
     api.add_resource(_Read, '/')
-    api.add_resource(_GetGame, '/get_game')
-    api.add_resource(_UpdateChessGame, "/update_game")
-    api.add_resource(_GetGames, '/get_games/<string:name>')
+
+
     api.add_resource(_DeleteGame, '/delete_game')
     api.add_resource(_DeleteUser, "/delete_user/<int:uid>")
