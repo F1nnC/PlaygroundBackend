@@ -102,7 +102,6 @@ def initOrders():
         p1 = Order(orderName='Joe', pizzaType='cheese', address='1313 Disneyland Dr, Anaheim, CA 92802')
         p2 = Order(orderName='Bill', pizzaType='pepperoni', address='1600 Pennsylvania Avenue NW, Washington, DC 20500')
 
-
         orders = [p1, p2]
 
         for item in orders:
