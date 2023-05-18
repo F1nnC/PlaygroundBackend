@@ -122,35 +122,42 @@ def initPizzaOrders():
 
 initPizzaOrders()
 
+<<<<<<< HEAD
 
 def find_by_name(orderName):
     with app.app_context():
         name = Pizza.query.filter_by(_orderName=orderName).first()
     return name # returns user object
+=======
+# def find_by_name(orderName):
+#     with app.app_context():
+#         name = Pizza.query.filter_by(_orderName=orderName).first()
+#     return name # returns user object
+>>>>>>> refs/remotes/origin/main
 
-def create():
-    orderName = input("Enter your name: ")
-    order = find_by_name(orderName)
-    try:
-        print("Found\n", order.read())
-        return
-    except:
-        pass # keep going
+# def create():
+#     orderName = input("Enter your name: ")
+#     order = find_by_name(orderName)
+#     try:
+#         print("Found\n", order.read())
+#         return
+#     except:
+#         pass # keep going
     
-    pizzaType = input("Enter the pizza type: ")
-    address = input("Enter your address: ")
+#     pizzaType = input("Enter the pizza type: ")
+#     address = input("Enter your address: ")
     
-    # Initialize User object before date
-    phone = Pizza(orderName=orderName, 
-                pizzaType=pizzaType, 
-                address=address,
-                )
+#     # Initialize User object before date
+#     phone = Pizza(orderName=orderName, 
+#                 pizzaType=pizzaType, 
+#                 address=address,
+#                 )
     
-    with app.app_context():
-        try:
-            object = phone.create()
-            print("Created\n", object.read())
-        except:  # error raised if object not created
-            print("Unknown error uid {uid}")
+#     with app.app_context():
+#         try:
+#             object = phone.create()
+#             print("Created\n", object.read())
+#         except:  # error raised if object not created
+#             print("Unknown error uid {uid}")
         
-create()
+# create()
