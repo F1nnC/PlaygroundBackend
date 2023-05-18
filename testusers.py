@@ -21,7 +21,7 @@ class PizzaUsers(UserMixin, db.Model):
     # notes = db.relationship("Notes", cascade='all, delete', backref='users', lazy=True)
 
 
-    def __init__(self, name='', uid="0", password="null", dob="11-11-1111", games="", score="0"):
+    def __init__(self, name='', uid="0", password="null", dob="11-11-1111", games="", score= ""):
         self.uid = make_id()
         self.name = name
         self.dob = dob

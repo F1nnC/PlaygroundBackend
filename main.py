@@ -6,7 +6,7 @@ from flask import render_template  # import render_template from "public" flask 
 
 # import "packages" from "this" project
 from __init__ import app 
-from model_chess import createTestingData
+from testusers import createTestingData
 
 # setup APIs
 from server import server
