@@ -7,7 +7,6 @@ from flask_login import UserMixin
 from flask import Blueprint, request, jsonify
 
 
-
 class PizzaUsers(UserMixin, db.Model):
     __tablename__ = 'pizza_users'
     

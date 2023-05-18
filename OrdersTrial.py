@@ -110,14 +110,18 @@ def initPizzaOrders():
         """Builds sample user/note(s) data"""
         for order in orders:
             try:
-                '''add user to table'''
-                object = order.create()
-                print(f"Created new uid {object.orderName}")
-            except:  # error raised if object nit created
-                '''fails with bad or duplicate data'''
-                print(f"Records exist uid {order.orderName}, or error.")
-                
+                existing_order = Pizza.query.filter_by(orderName=order.orderName).first()
+                if existing_order:
+                    db.session.delete(existing_order)
+                    db.session.commit()
+                    print(f"Deleted existing order: {existing_order.orderName}")
+                new_order = order.create()
+                print(f"Created new order: {new_order.orderName}")
+            except Exception as e:
+                print(f"Failed to create order: {order.orderName}. Error: {str(e)}")
+
 initPizzaOrders()
+
 
 def find_by_name(orderName):
     with app.app_context():
