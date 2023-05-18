@@ -15,7 +15,7 @@ from superCoolFile import pizza_user_api
 # setup App pages
 from projects.projects import app_projects # Blueprint directory import projects definition
 from login import NameAPI
-from testusers import createTestingData
+
 from testusers import db
 # register URIs
 
@@ -50,7 +50,7 @@ if __name__ == "__main__":
     # change name for testing
     from flask_cors import CORS
     cors = CORS(app)
-    app.run(debug=True, host="0.0.0.0", port=5000)
+    app.run(debug=True, host="0.0.0.0", port=8687)
 
 # Initialize the SQLAlchemy object to work with the Flask app instance
 

@@ -5,7 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 from flask_login import UserMixin
 from flask import Blueprint, request, jsonify
-
+from flask import jsonify
 
 class PizzaUsers(UserMixin, db.Model):
     __tablename__ = 'pizza_users'
@@ -20,6 +20,10 @@ class PizzaUsers(UserMixin, db.Model):
     # Defines a relationship between User record and Notes table, one-to-many (one user to many notes)
     # notes = db.relationship("Notes", cascade='all, delete', backref='users', lazy=True)
 
+    def update_score(self, score):
+        self.score += score
+        db.session.commit()
+        return self.score 
 
     def __init__(self, name='', uid="0", password="null", dob="11-11-1111", games="", score= ""):
         self.uid = make_id()

@@ -20,7 +20,6 @@ class Login(Resource):
             return {'message': f'name is missing'}
         password = body.get('password')
         user = getName(name)
-        # user = ChessUsers.query.filter_by(_name=name).first()
 
         if user is None:
             return {'message': f"invalid username"}
@@ -30,11 +29,10 @@ class Login(Resource):
         if not isPass:
             return {'message': f"wrong password"}
         
+        user.score = 0
+        user.update()
+
         response = jsonify(user.read())
         return response
 
-api.add_resource(Login, '/', methods = ['GET', 'POST'])
-
-
-import random
-
+api.add_resource(Login, '/', methods=['GET', 'POST'])

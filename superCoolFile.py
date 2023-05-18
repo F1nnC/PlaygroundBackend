@@ -14,12 +14,23 @@ pizza_user_api = Blueprint('pizza_user_api', __name__,
 api = Api(pizza_user_api)
 class UserAPI:        
     class _Create(Resource):
+        def put(self):
+            body = request.get_json(force=True)
+            name = body.get('name')
+            score = 1  # Increase the score by 1
+            user = getName(name)
+            if user:
+                updated_score = user.update_score(score)
+                return {'message': f'Score updated to {updated_score}'}
+            else:
+                return {'message': f'User {name} not found'}, 404
         def post(self):
             ''' Read data for json body '''
             body = request.get_json()
             
             ''' Avoid garbage in, error checking '''
             # validate name
+            
             name = body.get('name')
             if name is None or len(name) < 2:
                 return {'message': f'Name is missing, or is less than 2 characters'}, 210
@@ -68,7 +79,14 @@ class UserAPI:
             user = getName(name)
             return user.deleteGame(date)
 
-    
+    class _UpdateScore(Resource):
+        def put(self, uid):
+            user = getUser(uid)
+            if user != "Invalid user":
+                user.score += 1
+                return {'message': 'Score updated successfully'}
+            else:
+                return {'message': 'Invalid user'}, 404
     class _DeleteUser(Resource):
         def delete(self, uid):
             user = getUser(uid)
@@ -83,3 +101,8 @@ class UserAPI:
 
     api.add_resource(_DeleteGame, '/delete_game')
     api.add_resource(_DeleteUser, "/delete_user/<int:uid>")
+    api.add_resource(_Create, '/create')
+    api.add_resource(_Read, '/')
+    api.add_resource(_DeleteGame, '/delete_game')
+    api.add_resource(_DeleteUser, "/delete_user/<int:uid>")
+    api.add_resource(_UpdateScore, "/update_score")
