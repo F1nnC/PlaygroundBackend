@@ -93,7 +93,7 @@ class UserAPI:
             body = request.get_json(force=True)
             name = body.get('name')
             password = body.get('password')
-            score = 1  # Increase the score by 1
+            score = 1  
             user = getName(name)
             if user and user.is_password_match(password):
                 updated_score = user.update_score(score)
