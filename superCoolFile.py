@@ -87,6 +87,7 @@ class UserAPI:
                 return {'message': 'Score updated successfully'}
             else:
                 return {'message': 'Invalid user'}, 404
+        
     class _DeleteUser(Resource):
         def delete(self, uid):
             user = getUser(uid)
@@ -97,12 +98,6 @@ class UserAPI:
     # building RESTapi endpoint
     api.add_resource(_Create, '/create')
     api.add_resource(_Read, '/')
-
-
     api.add_resource(_DeleteGame, '/delete_game')
     api.add_resource(_DeleteUser, "/delete_user/<int:uid>")
-    api.add_resource(_Create, '/create')
-    api.add_resource(_Read, '/')
-    api.add_resource(_DeleteGame, '/delete_game')
-    api.add_resource(_DeleteUser, "/delete_user/<int:uid>")
-    api.add_resource(_UpdateScore, "/update_score")
+    api.add_resource(_UpdateScore, "/update_score/<int:uid>")
