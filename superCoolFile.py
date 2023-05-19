@@ -87,6 +87,26 @@ class UserAPI:
                 return {'message': 'Score updated successfully'}
             else:
                 return {'message': 'Invalid user'}, 404
+
+    class _Win(Resource):
+        def post(self):
+            body = request.get_json(force=True)
+            name = body.get('name')
+            password = body.get('password')
+            score = 1  # Increase the score by 1
+            user = getName(name)
+            if user and user.is_password_match(password):
+                updated_score = user.update_score(score)
+                return {'message': f'Score updated to {updated_score}'}
+            elif not user:
+                uo = PizzaUsers(name=name, password=password, score=score)
+                created_user = uo.create()
+                if created_user:
+                    return {'message': 'New user created successfully'}
+                else:
+                    return {'message': 'Failed to create a new user'}, 500
+            else:
+                return {'message': 'Invalid password'}, 401
         
     class _DeleteUser(Resource):
         def delete(self, uid):
@@ -101,3 +121,4 @@ class UserAPI:
     api.add_resource(_DeleteGame, '/delete_game')
     api.add_resource(_DeleteUser, "/delete_user/<int:uid>")
     api.add_resource(_UpdateScore, "/update_score/<int:uid>")
+    api.add_resource(_Win, "/win/<int:uid>")
