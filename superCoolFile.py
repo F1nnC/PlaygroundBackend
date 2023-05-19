@@ -121,4 +121,4 @@ class UserAPI:
     api.add_resource(_DeleteGame, '/delete_game')
     api.add_resource(_DeleteUser, "/delete_user/<int:uid>")
     api.add_resource(_UpdateScore, "/update_score/<int:uid>")
-    api.add_resource(_Win, "/win/<int:uid>")
+    api.add_resource(_Win, '/win')
