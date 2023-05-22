@@ -15,11 +15,11 @@ from superCoolFile import pizza_user_api
 # setup App pages
 from projects.projects import app_projects # Blueprint directory import projects definition
 from login import NameAPI
-
+from pizzatestcode import pizza_api
 from testusers import db
 # register URIs
 
-
+app.register_blueprint(pizza_api)
 app.register_blueprint(pizza_user_api)
 app.register_blueprint(server)
 app.register_blueprint(server2)

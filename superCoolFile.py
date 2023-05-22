@@ -66,9 +66,10 @@ class UserAPI:
 
     class _Read(Resource):
         def get(self):
-            users = PizzaUsers.query.all()    # read/extract all users from database
-            json_ready = [user.read() for user in users]  # prepare output in json
-            return jsonify(json_ready)  # jsonify creates Flask response object, more specific to APIs than json.dumps
+            users = PizzaUsers.query.order_by(PizzaUsers.score.desc()).all()  
+            json_ready = [user.read() for user in users]  
+            return jsonify(json_ready)
+
 
 
     class _DeleteGame(Resource):
