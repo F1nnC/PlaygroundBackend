@@ -122,18 +122,17 @@ def initPizzaOrders():
 
 initPizzaOrders()
 
-<<<<<<< HEAD
 
 def find_by_name(orderName):
     with app.app_context():
         name = Pizza.query.filter_by(_orderName=orderName).first()
     return name # returns user object
-=======
+
 # def find_by_name(orderName):
 #     with app.app_context():
 #         name = Pizza.query.filter_by(_orderName=orderName).first()
 #     return name # returns user object
->>>>>>> refs/remotes/origin/main
+
 
 # def create():
 #     orderName = input("Enter your name: ")
