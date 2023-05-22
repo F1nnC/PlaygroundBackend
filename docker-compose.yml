@@ -1,14 +1,15 @@
 version: '3'
 services:
-        web:
-                image: playground 
-                build: .
-                ports:
-                        - "8092:8080"
-                volumes:
-                        - ./volumes:/volumes
-                        - ./instance:/instance
-                restart: unless-stopped
+  web:
+    image: playground 
+    build: .
+    ports:
+      - "8092:8080"
+    volumes:
+      - ./volumes:/volumes
+      - ./instance:/instance
+    restart: unless-stopped
+
 
 #pip install --no-cache-dir -r requirements.txt   
 #pip install gunicorn 
