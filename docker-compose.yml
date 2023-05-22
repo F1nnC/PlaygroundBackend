@@ -10,7 +10,3 @@ services:
       - ./instance:/instance
     restart: unless-stopped
 
-
-#pip install --no-cache-dir -r requirements.txt   
-#pip install gunicorn 
-#e
