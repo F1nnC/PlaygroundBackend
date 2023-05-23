@@ -180,8 +180,8 @@ def createTestingData():
     with app.app_context():
         db.init_app(app)
         db.create_all()
-        u1 = PizzaUsers(name='Toby', password="lmaobad", uid="12")
-        u2 = PizzaUsers(name='Gene', password="WRizz", uid="123")
+        u1 = PizzaUsers(name='Toby', password="lmaobad", uid="12", score = 5)
+        u2 = PizzaUsers(name='Gene', password="WRizz", uid="123", score = 5)
         try:
             '''add user/note data to table'''
             u1.create()
