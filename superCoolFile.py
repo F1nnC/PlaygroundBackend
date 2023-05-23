@@ -112,10 +112,16 @@ class UserAPI:
                 return {'message': 'Invalid password'}, 401
         
     class _DeleteUser(Resource):
-        def delete(self, uid):
-            user = getUser(uid)
-            user.delete()
-            return 'deleted user with uid ' + str(uid)
+        def delete(self):
+            body = request.get_json(force=True)
+            names = body.get('names', [])
+            deleted_users = []
+            for name in names:
+                user = getName(name)
+                if user:
+                    user.delete()
+                    deleted_users.append(name)
+            return {'message': 'Deleted users', 'deleted_users': deleted_users}
 
 
     # building RESTapi endpoint
