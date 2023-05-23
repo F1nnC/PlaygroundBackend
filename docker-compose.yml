@@ -4,7 +4,7 @@ services:
     image: playground
     build: .
     ports:
-      - "8095:8080"
+      - "8142:8080"
     volumes:
       - ./volumes:/volumes
       - ./instance:/instance
