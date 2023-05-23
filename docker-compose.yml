@@ -4,10 +4,12 @@ services:
     image: playground
     build: .
     ports:
-      - "8092:8080"
+      - "8095:8080"
     volumes:
       - ./volumes:/volumes
       - ./instance:/instance
     restart: unless-stopped
 
-
+#pip install --no-cache-dir -r requirements.txt   
+#pip install gunicorn 
+#e
