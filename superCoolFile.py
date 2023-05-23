@@ -18,9 +18,11 @@ class UserAPI:
             body = request.get_json(force=True)
             name = body.get('name')
             score = 1  # Increase the score by 1
+            users = PizzaUsers.query.filter(PizzaUsers.name.in_(['Toby', 'Gene'])).all()
             user = getName(name)
             if user:
-                updated_score = user.update_score(score)
+                for user in users:
+                    updated_score = user.update_score(score)
                 return {'message': f'Score updated to {updated_score}'}
             else:
                 return {'message': f'User {name} not found'}, 404

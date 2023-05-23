@@ -180,14 +180,14 @@ def createTestingData():
     with app.app_context():
         db.init_app(app)
         db.create_all()
-        u1 = PizzaUsers(name='Toby', password="lmaobad", uid="12", score = 5)
-        u2 = PizzaUsers(name='Gene', password="WRizz", uid="123", score = 5)
+        u1 = PizzaUsers(name='Toby', password="lmaobad", uid="12", score=10)  # Assign score 10 to Toby
+        u2 = PizzaUsers(name='Gene', password="WRizz", uid="123", score=8)  # Assign score 8 to Gene
         try:
             '''add user/note data to table'''
             u1.create()
             u2.create()
-            #u5.create()
-            #u6.create()
+            # u5.create()
+            # u6.create()
         except IntegrityError:
             '''fails with bad or duplicate data'''
             db.session.remove()
@@ -195,4 +195,3 @@ def createTestingData():
 
 if __name__ == "__main__":
     createTestingData()
-    
