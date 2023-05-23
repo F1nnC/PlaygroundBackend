@@ -235,7 +235,7 @@ import sqlite3
 
 #DELETE
 def delete():
-    pizzaType = input("Enter pizzaType to delete")
+    orderName = input("Enter orderName to delete")
 
     # Connect to the database file
     conn = sqlite3.connect(database2)
@@ -244,7 +244,7 @@ def delete():
     cursor = conn.cursor()
     
     try:
-        cursor.execute("DELETE FROM PizzaOrders WHERE pizzaType = ?", (pizzaType,))
+        cursor.execute("DELETE FROM PizzaOrders WHERE pizzaType = ?", (orderName,))
         # get the number of rows affected.
         cursor.execute("SELECT changes()").fetchone()[0]
         
