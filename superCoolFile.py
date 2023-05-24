@@ -68,8 +68,16 @@ class UserAPI:
 
     class _Read(Resource):
         def get(self):
-            users = PizzaUsers.query.order_by(PizzaUsers.score.desc()).all()  
-            json_ready = [user.read() for user in users]  
+            users = PizzaUsers.query.all()
+            
+            # Bubble sort to sort users by score
+            n = len(users)
+            for i in range(n - 1):
+                for j in range(0, n - i - 1):
+                    if users[j].score < users[j + 1].score:
+                        users[j], users[j + 1] = users[j + 1], users[j]
+            
+            json_ready = [user.read() for user in users]
             return jsonify(json_ready)
 
 
