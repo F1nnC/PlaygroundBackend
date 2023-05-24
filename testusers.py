@@ -178,7 +178,7 @@ def getGame(uid, date):
     
 def createTestingData():
     with app.app_context():
-        db.init_app(app)
+
         db.create_all()
         u1 = PizzaUsers(name='Toby', password="lmaobad", uid="12", score=10)  # Assign score 10 to Toby
         u2 = PizzaUsers(name='Gene', password="WRizz", uid="123", score=8)  # Assign score 8 to Gene

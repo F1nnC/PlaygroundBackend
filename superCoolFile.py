@@ -70,7 +70,7 @@ class UserAPI:
         def get(self):
             users = PizzaUsers.query.all()
             
-            # Bubble sort to sort users by score
+            # Bubble sort yay!!!!!!!
             n = len(users)
             for i in range(n - 1):
                 for j in range(0, n - i - 1):

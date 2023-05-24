@@ -12,7 +12,7 @@ database2 = 'instance/sqlite.db'
 app.config['SQLALCHEMY_DATABASE_URI'] = database
 app.config['SECRET_KEY'] = 'SECRET_KEY'
 db = SQLAlchemy()
-db.init_app(app)
+
 
 import datetime
 from datetime import datetime
@@ -292,6 +292,3 @@ def menu():
     menu() # recursion, repeat menu
         
 try:
-    menu() # start menu
-except:
-    print("Perform Jupyter 'Run All' prior to starting menu")

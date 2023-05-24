@@ -1,28 +1,25 @@
-from app import Player, player_leaderboard_api, app
+from app import app
 import threading
 
 # import "packages" from flask
-from flask import render_template  # import render_template from "public" flask libraries
+from flask import render_template
 
 # import "packages" from "this" project
-from __init__ import app 
 from testusers import createTestingData
-
+from __init__ import db, app
 # setup APIs
 from server import server
-from testApi import server2
 from superCoolFile import pizza_user_api
 # setup App pages
-from projects.projects import app_projects # Blueprint directory import projects definition
+from projects.projects import app_projects
 from login import NameAPI
 from pizzatestcode import pizza_api
-from testusers import db
-# register URIs
+from pizzaOrders import createTestingData1
 
 app.register_blueprint(pizza_api)
 app.register_blueprint(pizza_user_api)
 app.register_blueprint(server)
-app.register_blueprint(server2)
+
 app.register_blueprint(app_projects) # register app pages
 app.register_blueprint(NameAPI)
 
@@ -43,6 +40,7 @@ def stub():
 @app.before_first_request
 def activate_job():
     createTestingData()
+    createTestingData1()
     # createBattleshipTable()
 
 
@@ -50,7 +48,5 @@ if __name__ == "__main__":
     # change name for testing
     from flask_cors import CORS
     cors = CORS(app)
+    db.init_app(app)
     app.run(debug=True, host="0.0.0.0", port=8142)
-
-# Initialize the SQLAlchemy object to work with the Flask app instance
-

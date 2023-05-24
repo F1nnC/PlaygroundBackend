@@ -17,7 +17,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = database
 app.config['SECRET_KEY'] = 'SECRET_KEY'
 db = SQLAlchemy()
 
-db.init_app(app)
+
 import json
 from sqlalchemy.exc import IntegrityError
 

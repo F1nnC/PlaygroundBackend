@@ -1,8 +1,8 @@
 from flask import Blueprint, request, jsonify
 from flask_restful import Api, Resource
 from datetime import datetime
-from flask_sqlalchemy import SQLAlchemy
-from pizzaTrial import Pizza
+from pizzaOrders import Order, getAddress, getName, getType, getUser
+
 
 pizza_api = Blueprint('pizza_api', __name__, url_prefix='/api/pizza/')
 api = Api(pizza_api)
@@ -11,50 +11,51 @@ class PizzaAPI:
     class _Create(Resource):
         def post(self):
             body = request.get_json()
-            pizza = body.get('pizza')
-            pizzaPrice = body.get('pizzaPrice')
-            pizzaSize = body.get('pizzaSize')
+            orderName = body.get('orderName')
+            uid = body.get('uid')
+            pizzaType = body.get('pizzaType')
+            address = body.get('address')
+            
+            new_order = Order(orderName=orderName, uid=uid, pizzaType=pizzaType, address=address)
+            created_order = new_order.create()
 
-            new_pizza = Pizza(pizza=pizza, pizzaPrice=pizzaPrice, pizzaSize=pizzaSize)
-            created_pizza = new_pizza.create()
-
-            if created_pizza:
-                return jsonify(created_pizza.read())
+            if created_order:
+                return jsonify(created_order.read())
             else:
-                return {'message': 'Failed to create a new pizza'}, 500
+                return {'message': 'Failed to create a new order'}, 500
 
     class _Read(Resource):
         def get(self):
-            pizzas = Pizza.query.all()
-            json_ready = [pizza.read() for pizza in pizzas]
+            orders = Order.query.all()
+            json_ready = [order.read() for order in orders]
             return jsonify(json_ready)
 
     class _Update(Resource):
-        def put(self, pizza_id):
+        def put(self, order_id):
             body = request.get_json()
-            pizza = Pizza.query.get(pizza_id)
+            order = Order.query.get(order_id)
 
-            if pizza:
-                pizza.update(
-                    pizza=body.get('pizza', pizza.pizza),
-                    pizzaPrice=body.get('pizzaPrice', pizza.pizzaPrice),
-                    pizzaSize=body.get('pizzaSize', pizza.pizzaSize)
+            if order:
+                order.update(
+                    orderName=body.get('orderName', order.orderName),
+                    pizzaType=body.get('pizzaType', order.pizzaType),
+                    address=body.get('address', order.address)
                 )
-                return jsonify(pizza.read())
+                return jsonify(order.read())
             else:
-                return {'message': 'Pizza not found'}, 404
+                return {'message': 'Order not found'}, 404
 
     class _Delete(Resource):
-        def delete(self, pizza_id):
-            pizza = Pizza.query.get(pizza_id)
+        def delete(self, order_id):
+            order = Order.query.get(order_id)
 
-            if pizza:
-                pizza.delete()
-                return {'message': 'Pizza deleted successfully'}
+            if order:
+                order.delete()
+                return {'message': 'Order deleted successfully'}
             else:
-                return {'message': 'Pizza not found'}, 404
+                return {'message': 'Order not found'}, 404
 
     api.add_resource(_Create, '/')
     api.add_resource(_Read, '/')
-    api.add_resource(_Update, '/<int:pizza_id>')
-    api.add_resource(_Delete, '/<int:pizza_id>')
+    api.add_resource(_Update, '/<int:order_id>')
+    api.add_resource(_Delete, '/<int:order_id>')
