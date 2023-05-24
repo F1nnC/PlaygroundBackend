@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from flask_restful import Api, Resource
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
-from pizzaTrial import Pizza
+from archive.pizzaTrial import Pizza
 
 pizza_api = Blueprint('pizza_api', __name__, url_prefix='/api/pizza/')
 api = Api(pizza_api)
