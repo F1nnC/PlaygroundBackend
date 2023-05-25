@@ -113,9 +113,57 @@ def initPizzaing():
             try:
                 '''add user to table'''
                 object = order.create()
-                print(f"Created new uid {object.pizzaType}")
+                print(f"Created new uid {object.orderName}")
             except:  # error raised if object nit created
                 '''fails with bad or duplicate data'''
-                print(f"Records exist uid {order.pizzaType}, or error.")
+                print(f"Records exist uid {order.orderName}, or error.")
                 
 initPizzaing()
+
+def find_by_name(orderName):
+    with app.app_context():
+        name = Orders.query.filter_by(_orderName=orderName).first()
+    return name # returns user object
+
+# Inputs, Try/Except, and SQLAlchemy work together to build a valid database object
+def create():
+    # optimize user time to see if uid exists
+    pizzaType = input("Enter your pizza: ")
+    orderName = input("Enter your name: ")
+    address = input("Enter your address: ")
+    
+    # Initialize User object before date
+    order = Orders(orderName=orderName, 
+                pizzaType=pizzaType, 
+                address=address,
+                )
+
+    # write object to database
+    with app.app_context():
+        try:
+            object = order.create()
+            print("Created\n", object.read())
+        except:  # error raised if object not created
+            print("Unknown error uid {uid}")
+        
+# create()
+
+def read():
+    with app.app_context():
+        table = Orders.query.all()
+    json_ready = [order.read() for order in table] # each user adds user.read() to list
+    return json_ready
+
+# read()
+
+def delete_by_company(): # makes a new function called delete_by_uid
+    orderName = input("Enter uid of user to be deleted ") # prompts the user to enter the uid
+    user = find_by_name(orderName)  # using previous function to locate user by inputted id
+    with app.app_context():
+        try:
+            object = user.delete() 
+            print(f"User with uid {orderName} has been deleted")
+        except:  # error raised if object not found
+           (f"No user with uid {orderName} was found")
+        
+delete_by_company()
