@@ -3,6 +3,12 @@ from flask_restful import Api, Resource
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from pizzaOrders import Order
+from flask import Flask
+
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///pizza.db'
+db = SQLAlchemy(app)
+
 
 pizza_api = Blueprint('pizza_api', __name__, url_prefix='/api/pizza/')
 api = Api(pizza_api)
@@ -59,3 +65,6 @@ class PizzaAPI:
     api.add_resource(_Read, '/')
     api.add_resource(_Update, '/<int:order_id>')
     api.add_resource(_Delete, '/<int:order_id>')
+
+if __name__ == "__main__":
+    app.run()
