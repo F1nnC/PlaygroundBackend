@@ -16,14 +16,14 @@ from login import NameAPI
 from pizzatestcode import pizza_api
 from pizzaOrders import createTestingData1
 # Edwin's Database
-from api.pizzaza import orders_api # CHANGE
-from model.pizzaing import initPizzaing # CHANGE
+# from api.pizzaza import orders_api # CHANGE
+# from model.pizzaing import initPizzaing # CHANGE
 
 app.register_blueprint(pizza_api)
 app.register_blueprint(pizza_user_api)
 app.register_blueprint(server)
 
-app.register_blueprint(orders_api) # CHANGE
+# app.register_blueprint(orders_api) # CHANGE
 
 app.register_blueprint(app_projects) # register app pages
 app.register_blueprint(NameAPI)
@@ -46,7 +46,7 @@ def stub():
 def activate_job():
     createTestingData()
     createTestingData1()
-    initPizzaing() # CHANGE
+    # initPizzaing() # CHANGE
     # createBattleshipTable()
 
 if __name__ == "__main__":
