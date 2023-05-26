@@ -13,20 +13,14 @@ from superCoolFile import pizza_user_api
 # setup App pages
 from projects.projects import app_projects
 from login import NameAPI
-from pizzatestcode import pizza_api
+
 from pizzaOrders import createTestingData1
 # Edwin's Database
-from pizzaza import orders_api # CHANGE
-from pizzaing import initPizzaing # CHANGE
-
+# from pizzaza import orders_api # CHANGE
+# from pizzaing import initPizzaing # CHANGE
+from pizzatestcode import pizza_api
 app.register_blueprint(pizza_api)
-app.register_blueprint(pizza_user_api)
-app.register_blueprint(server)
 
-app.register_blueprint(orders_api) # CHANGE
-
-app.register_blueprint(app_projects) # register app pages
-app.register_blueprint(NameAPI)
 
 
 @app.errorhandler(404)  # catch for URL not found
@@ -46,12 +40,16 @@ def stub():
 def activate_job():
     createTestingData()
     createTestingData1()
-    initPizzaing() # CHANGE
+    # initPizzaing() # CHANGE
     # createBattleshipTable()
 
 if __name__ == "__main__":
-    # change name for testing
     from flask_cors import CORS
     cors = CORS(app)
-    db.init_app(app)
+    db.init_app(app)  # Initialize the database
+
+    app.register_blueprint(pizza_user_api)
+    app.register_blueprint(server)
+    app.register_blueprint(app_projects)
+    app.register_blueprint(NameAPI)
     app.run(debug=True, host="0.0.0.0", port=8142)

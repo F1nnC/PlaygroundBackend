@@ -7,6 +7,8 @@ from flask_login import UserMixin
 from flask import Blueprint, request, jsonify
 from flask import jsonify
 
+
+
 class Order(UserMixin, db.Model):
     __tablename__ = 'PizzaOrders'
     id = db.Column(db.Integer, primary_key=True)
