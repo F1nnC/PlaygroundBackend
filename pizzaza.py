@@ -2,11 +2,16 @@ from flask import Blueprint, request, jsonify
 from flask_restful import Api, Resource
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
-from model.pizzaing import Orders
+from pizzaing import Orders
+from flask import Flask
+from flask import Blueprint, request, jsonify
+from flask_restful import Api, Resource 
+
 
 orders_api = Blueprint('orders_api', __name__,
-                   url_prefix='/api/orders')
+                   url_prefix='/api/orders/')
 api = Api(orders_api)
+
 
 class OrdersAPI:
     class _Create(Resource):
