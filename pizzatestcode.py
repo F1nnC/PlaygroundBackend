@@ -5,9 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from pizzaOrders import Order
 from flask import Flask
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///pizza.db'
-db = SQLAlchemy(app)
+from __init__ import db, app
 
 
 pizza_api = Blueprint('pizza_api', __name__, url_prefix='/api/pizza/')
