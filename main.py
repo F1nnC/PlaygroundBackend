@@ -46,7 +46,6 @@ def activate_job():
 if __name__ == "__main__":
     from flask_cors import CORS
     cors = CORS(app)
-    db.init_app(app)  # Initialize the database
 
     app.register_blueprint(pizza_user_api)
     app.register_blueprint(server)

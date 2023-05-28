@@ -5,6 +5,11 @@ from testusers import PizzaUsers
 from testusers import getName, getUser, getScore 
 from flask_sqlalchemy import SQLAlchemy
 
+from flask import Blueprint, request, jsonify
+from flask_restful import Api, Resource
+
+from __init__ import db, app
+
 pizza_user_api = Blueprint('pizza_user_api', __name__,
                    url_prefix='/api/users/')
 
@@ -139,3 +144,6 @@ class UserAPI:
     api.add_resource(_DeleteUser, "/delete_user/<int:uid>")
     api.add_resource(_UpdateScore, "/update_score/<int:uid>")
     api.add_resource(_Win, '/win')
+
+if __name__ == "__main__":
+    app.run()

@@ -1,7 +1,6 @@
 import os, json
 from __init__ import db, app
 from sqlalchemy.exc import IntegrityError
-from werkzeug.security import generate_password_hash, check_password_hash
 
 from flask_login import UserMixin
 from flask import Blueprint, request, jsonify
@@ -24,7 +23,7 @@ class Order(UserMixin, db.Model):
         self._address = address
 
     def __repr__(self):
-        return f"Order({self._uid}, {self._orderName}, {self._pizzaType}, {self._address})"
+        return f"Order({self._uid}, {self._orderName}, {self._pizzaType}, str{self._address})"
 
     def create(self):
         try:
