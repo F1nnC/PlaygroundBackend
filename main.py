@@ -20,7 +20,7 @@ from pizzaOrders import createTestingData1
 # from pizzaing import initPizzaing # CHANGE
 from pizzatestcode import pizza_api
 app.register_blueprint(pizza_api)
-
+app.register_blueprint(pizza_user_api)
 
 
 @app.errorhandler(404)  # catch for URL not found
@@ -46,8 +46,6 @@ def activate_job():
 if __name__ == "__main__":
     from flask_cors import CORS
     cors = CORS(app)
-
-    app.register_blueprint(pizza_user_api)
     app.register_blueprint(server)
     app.register_blueprint(app_projects)
     app.register_blueprint(NameAPI)
