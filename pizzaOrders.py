@@ -13,7 +13,7 @@ class Order(UserMixin, db.Model):
     address = db.Column(db.String(255), unique=False, nullable=False)
     uid = db.Column(db.Integer, unique=False, nullable=False)
 
-    def __init__(self, orderName="", uid=0, pizzaType="", address=""):
+    def __init__(self, orderName="", uid="1", pizzaType="", address=""):
         self.uid = uid
         self.orderName = orderName
         self.pizzaType = pizzaType
