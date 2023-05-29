@@ -13,11 +13,12 @@ class Order(UserMixin, db.Model):
     address = db.Column(db.String(255), unique=False, nullable=False)
     uid = db.Column(db.Integer, unique=False, nullable=False)
 
-    def __init__(self, orderName="", uid="1", pizzaType="", address=""):
-        self.uid = make_id()
+    def __init__(self, orderName="", uid=None, pizzaType="", address=""):
+        self.uid = uid if uid is not None else make_id() 
         self.orderName = orderName
         self.pizzaType = pizzaType
         self.address = address
+
 
     def __repr__(self):
         return f"Order({self.uid}, {self.orderName}, {self.pizzaType}, {self.address})"
