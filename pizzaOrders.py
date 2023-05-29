@@ -91,7 +91,7 @@ def getAddress(address):
 def createTestingData1():
     with app.app_context():
         db.create_all()
-        u1 = Order(orderName="Balls", pizzaType="Cheese", address="2305 Nighthawk lane")
+        u1 = Order(orderName="Balls", pizzaType="Cheese", address="2305 Nighthawk lane", uid = 2)
         try:
             u1.create()
         except IntegrityError:
