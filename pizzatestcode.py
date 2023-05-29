@@ -6,6 +6,7 @@ from pizzaOrders import Order
 from flask import Flask
 
 from __init__ import db, app
+from flask_cors import CORS
 
 
 pizza_api = Blueprint('pizza_api', __name__, url_prefix='/api/pizza/')
@@ -66,3 +67,4 @@ class PizzaAPI:
 
 if __name__ == "__main__":
     app.run()
+    CORS(app)
