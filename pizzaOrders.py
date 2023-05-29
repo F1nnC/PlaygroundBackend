@@ -14,7 +14,7 @@ class Order(UserMixin, db.Model):
     uid = db.Column(db.Integer, unique=False, nullable=False)
 
     def __init__(self, orderName="", uid="1", pizzaType="", address=""):
-        self.uid = uid
+        self.uid = make_id()
         self.orderName = orderName
         self.pizzaType = pizzaType
         self.address = address
@@ -91,7 +91,7 @@ def getAddress(address):
 def createTestingData1():
     with app.app_context():
         db.create_all()
-        u1 = Order(orderName="Balls", pizzaType="Cheese", address="2305 Nighthawk lane", uid = 2)
+        u1 = Order(orderName="hehehaw", pizzaType="Cheese", address="2305 Nighthawk lane", uid = 2)
         try:
             u1.create()
         except IntegrityError:

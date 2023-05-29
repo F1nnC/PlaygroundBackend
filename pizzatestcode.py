@@ -36,9 +36,9 @@ class PizzaAPI:
             return jsonify(json_ready)
 
     class _Update(Resource):
-        def put(self, order_id):
+        def put(self, uid):
             body = request.get_json()
-            order = Order.query.get(order_id)
+            order = Order.query.get(uid)
 
             if order:
                 order.update(
@@ -51,8 +51,8 @@ class PizzaAPI:
                 return {'message': 'Order not found'}, 404
 
     class _Delete(Resource):
-        def delete(self, order_id):
-            order = Order.query.get(order_id)
+        def delete(self, uid):
+            order = Order.query.get(uid)
 
             if order:
                 order.delete()
@@ -62,8 +62,8 @@ class PizzaAPI:
 
     api.add_resource(_Create, '/')
     api.add_resource(_Read, '/')
-    api.add_resource(_Update, '/<int:order_id>')
-    api.add_resource(_Delete, '/<int:order_id>')
+    api.add_resource(_Update, '/<int:uid>')
+    api.add_resource(_Delete, '/<int:uid>')
 
 if __name__ == "__main__":
     app.run()
