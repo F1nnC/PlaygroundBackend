@@ -122,3 +122,43 @@ def initPhones():
                 print(f"Records exist uid {phone.model}, or error.")
                 
 initPhones()
+
+def find_by_company(company):
+    with app.app_context():
+        name = Phone.query.filter_by(_company=company).first()
+    return name
+
+def create():
+    phone = input("Enter the Phone: ")
+    company = input("Enter the manufacturer: ")
+    price = input("Enter the Price: ")
+
+    phone = Phone(phone=phone, 
+                company=company, 
+                price=price,
+                )
+        
+    with app.app_context():
+            try:
+                object = phone.create()
+                print("Created\n", object.read())
+            except:
+                print("Unknown error uid {uid}")
+
+def read():
+    with app.app_context():
+        table = Phone.query.all()
+    json_ready = [phone.read() for phone in table]
+    return json_ready
+
+# def delete_by_phone():
+#     orderName = input("Enter uid of user to be deleted ")
+#     user = find_by_company(orderName)
+#     with app.app_context():
+#         try:
+#             object = user.delete() 
+#             print(f"User with uid {orderName} has been deleted")
+#         except:
+#            (f"No user with uid {orderName} was found")
+        
+# delete_by_phone()
