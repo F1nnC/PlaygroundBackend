@@ -2,15 +2,15 @@ from flask import Blueprint, request, jsonify
 from flask_restful import Api, Resource
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
-from pizzaOrders import Order
+from pizzaOrdersFinal import Order
 from flask import Flask
 
 from __init__ import db, app
 from flask_cors import CORS
 
 
-pizza_api = Blueprint('pizza_api', __name__, url_prefix='/api/pizza/')
-api = Api(pizza_api)
+pizza_api_redux = Blueprint('pizza_api_redux', __name__, url_prefix='/api/pizzaorders/')
+api = Api(pizza_api_redux)
 
 class PizzaAPI:
     class _Create(Resource):

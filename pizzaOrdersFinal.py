@@ -6,7 +6,7 @@ from sqlalchemy.exc import IntegrityError
 from __init__ import db, app
 
 class Order(UserMixin, db.Model):
-    __tablename__ = 'PizzaOrders'
+    __tablename__ = 'PizzaOrders11'
     id = db.Column(db.Integer, primary_key=True)
     orderName = db.Column(db.String(255), unique=False, nullable=False)
     pizzaType = db.Column(db.String(255), unique=False, nullable=False)
@@ -89,7 +89,7 @@ def getAddress(address):
         return user
     return None
 
-def createTestingData1():
+def createTestingData2():
     with app.app_context():
         db.create_all()
         u1 = Order(orderName="hehehaw", pizzaType="Cheese", address="2305 Nighthawk lane", uid = 2)
@@ -100,4 +100,4 @@ def createTestingData1():
             print(f"Records exist, duplicate email, or error: {u1.uid}")
 
 if __name__ == "__main__":
-    createTestingData1()
+    createTestingData2()

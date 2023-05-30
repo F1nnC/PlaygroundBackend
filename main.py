@@ -14,11 +14,12 @@ from superCoolFile import pizza_user_api
 from projects.projects import app_projects
 from login import NameAPI
 
-from pizzaOrders import createTestingData1
+from pizzaOrdersFinal import createTestingData2
 # Edwin's Database
 # from pizzaza import orders_api # CHANGE
 # from pizzaing import initPizzaing # CHANGE
-
+from pizzamethods import pizza_api_redux
+app.register_blueprint(pizza_api_redux)
 app.register_blueprint(pizza_user_api)
 
 
@@ -38,6 +39,7 @@ def stub():
 @app.before_first_request
 def activate_job():
     createTestingData()
+    createTestingData2()
     # initPizzaing() # CHANGE
     # createBattleshipTable()
 
