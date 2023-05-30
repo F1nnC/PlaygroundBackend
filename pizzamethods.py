@@ -8,7 +8,8 @@ from flask import Flask
 from __init__ import db, app
 from flask_cors import CORS
 
-
+app = Flask(__name__)
+cors = CORS(app)
 pizza_api_redux = Blueprint('pizza_api_redux', __name__, url_prefix='/api/pizzaorders/')
 api = Api(pizza_api_redux)
 
@@ -59,6 +60,7 @@ class PizzaAPI:
                 return {'message': 'Order deleted successfully'}
             else:
                 return {'message': 'Order not found'}, 404
+
 
     api.add_resource(_Create, '/')
     api.add_resource(_Read, '/')
