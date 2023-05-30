@@ -13,14 +13,17 @@ from superCoolFile import pizza_user_api
 # setup App pages
 from projects.projects import app_projects
 from login import NameAPI
-
 from pizzaOrdersFinal import createTestingData2
+
 # Edwin's Database
-# from pizzaza import orders_api # CHANGE
-# from pizzaing import initPizzaing # CHANGE
+from model.edwin import initPhones # CHANGE
+from api.edwin import phone_api # CHANGE
+
 from pizzamethods import pizza_api_redux
 app.register_blueprint(pizza_api_redux)
 app.register_blueprint(pizza_user_api)
+# EDWIN
+app.register_blueprint(phone_api)
 
 
 @app.errorhandler(404)  # catch for URL not found
@@ -40,7 +43,7 @@ def stub():
 def activate_job():
     createTestingData()
     createTestingData2()
-    # initPizzaing() # CHANGE
+    initPhones() # CHANGE
     # createBattleshipTable()
 
 if __name__ == "__main__":
