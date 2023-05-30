@@ -18,8 +18,7 @@ from pizzaOrders import createTestingData1
 # Edwin's Database
 # from pizzaza import orders_api # CHANGE
 # from pizzaing import initPizzaing # CHANGE
-from pizzatestcode import pizza_api
-app.register_blueprint(pizza_api)
+
 app.register_blueprint(pizza_user_api)
 
 
@@ -39,7 +38,6 @@ def stub():
 @app.before_first_request
 def activate_job():
     createTestingData()
-    createTestingData1()
     # initPizzaing() # CHANGE
     # createBattleshipTable()
 
