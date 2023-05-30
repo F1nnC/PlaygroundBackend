@@ -1,164 +1,73 @@
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-import datetime
-from datetime import datetime
-import json
-from sqlalchemy.exc import IntegrityError
+from flask import Blueprint, request, jsonify
+from flask_restful import Api, Resource
 
-"""
-These object and definitions are used throughout the Jupyter Notebook.
-"""
+from model.edwin import Phone
 
-app = Flask(__name__)
-database = 'sqlite:///sqlite.db'  # path and filename of databaseapp.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URI'] = database
-app.config['SECRET_KEY'] = 'SECRET_KEY'
-db = SQLAlchemy()
+phone_api = Blueprint('phone_api', __name__,
+                   url_prefix='/api/edwin')
 
+api = Api(phone_api)
 
-db.init_app(app)
+class PhoneAPI(Resource):        
+    class _Create(Resource):
+        def post(self):
+            body = request.get_json()
+            model = body.get('model')
+            if model is None or len(model) < 2 or len(model) > 30:
+                return {'message': f'Model is missing, or is less than 2 characters, or is more than 30 characters'}, 210
+            company = body.get('company')
+            if company is None or len(company) < 2 or len(company) > 800:
+                return {'message': f'Text is missing, or is less than 2 characters, or is more than 800 characters'}, 210
+            price = body.get('price')
+            if price is None or len(price) < 2 or len(price) > 800:
+                return {'message': f'Price is missing, or is less than 2 characters, or is more than 800 characters'}, 210
+           
+            ''' Create FdPost instance '''
+            uo = Phone(model=model, company=company, price=price)
+            
+            post = uo.create()
+            if post:
+                return jsonify(post.read())
+            return {'message': f'Processed {model}, format error'}, 210
 
-''' Tutorial: https://www.sqlalchemy.org/library.html#tutorials, try to get into a Python shell and follow along '''
-class Phone(db.Model):
-    __tablename__ = 'Phones'  # table name is plural, class name is singular
+    class _Read(Resource):
+        def get(self):
+            phones = Phone.query.all()
+            json_ready = [phone.read() for phone in phones]
+            return jsonify(json_ready)
 
-    id = db.Column(db.Integer, primary_key=True)
-    _company = db.Column(db.String(255), unique=False, nullable=False) #_name
-    _model = db.Column(db.String(255), unique=True, nullable=False) #_uid
-    _price = db.Column(db.String(255), unique=False, nullable=False) # _password
-    _dob = db.Column(db.Date) #_dob
-
-    def __init__(self, company, model, price, dob=datetime.today()):
-        self._company = company
-        self._model = model
-        self._price = price
-
-    @property
-    def company(self):
-        return self._company
-    
-    @company.setter
-    def company(self, company):
-        self._company = company
-    
-    @property
-    def model(self):
-        return self._model
-    
-    @model.setter
-    def model(self, model):
-        self._model = model
+    class _Delete(Resource):
+        def delete(self):
+            id = request.args.get('id')
+            if id is None:
+                return {'message': f'id {id} is missing'}, 400
         
-    def is_model(self, model):
-        return self._model == model
-    
-    @property
-    def price(self):
-        return self._price
-    
-    @price.setter
-    def price(self, price):
-        self._price = price
-    
-    def __str__(self):
-        return json.dumps(self.read())
+            phone = Phone.query.filter_by(id=id).first()
+            if phone is None:
+                return {'message': f'post not found'}, 404
 
-    def create(self):
-        try:
-            db.session.add(self)  # add prepares to persist person object to Users table
-            db.session.commit()  # SqlAlchemy "unit of work pattern" requires a manual commit
-            return self
-        except IntegrityError:
-            db.session.remove()
-            return None
-
-    def read(self):
-        return {
-            "id": self.id,
-            "company": self.company,
-            "model": self.model,
-            "price": self.price,
-        }
-
-    def update(self, company="", model="", price=""):
-        """only updates values with length"""
-        if len(company) > 0:
-            self.company = company
-        if len(model) > 0:
-            self.model = model
-        if len(price) > 0:
-            self.price = price
-        db.session.commit()
-        db.session.add(self)
-        return self
-
-    def delete(self):
-        db.session.delete(self)
-        db.session.commit()
-        return None
-
-def initPhones():
-    with app.app_context():
-        """Create database and tables"""
-        db.create_all()
-        """Tester data for table"""
-        p1 = Phone(company='Apple', model='iPhone 14', price='799')
-        p2 = Phone(company='Apple', model='iPhone 14 Pro', price='999')
-        p3 = Phone(company='Samsung', model='Galaxy S23', price='799')
-        p4 = Phone(company='LG', model='Wing', price='999')
-        p5 = Phone(company='Motorola', model='Razr', price='1399')
-        p6 = Phone(company='Google', model='Pixel 7', price='599')
-
-        phones = [p1, p2, p3, p4, p5, p6]
-
-        """Builds sample user/note(s) data"""
-        for phone in phones:
-            try:
-                '''add user to table'''
-                object = phone.create()
-                print(f"Created new uid {object.model}")
-            except:
-                '''fails with bad or duplicate data'''
-                print(f"Records exist uid {phone.model}, or error.")
-                
-initPhones()
-
-def find_by_company(company):
-    with app.app_context():
-        name = Phone.query.filter_by(_company=company).first()
-    return name
-
-def create():
-    phone = input("Enter the Phone: ")
-    company = input("Enter the manufacturer: ")
-    price = input("Enter the Price: ")
-
-    phone = Phone(phone=phone, 
-                company=company, 
-                price=price,
-                )
+            phone.delete()
+            return {'message': f'Deleted'}, 200
         
-    with app.app_context():
-            try:
-                object = phone.create()
-                print("Created\n", object.read())
-            except:
-                print("Unknown error uid {uid}")
-
-def read():
-    with app.app_context():
-        table = Phone.query.all()
-    json_ready = [phone.read() for phone in table]
-    return json_ready
-
-# def delete_by_phone():
-#     orderName = input("Enter uid of user to be deleted ")
-#     user = find_by_company(orderName)
-#     with app.app_context():
-#         try:
-#             object = user.delete() 
-#             print(f"User with uid {orderName} has been deleted")
-#         except:
-#            (f"No user with uid {orderName} was found")
+    class _Update(Resource):
+        def put(self):
+            id = request.args.get('id')
+            if id is None:
+                return {'message': f'id {id} is missing'}, 400
         
-# delete_by_phone()
+            post = Phone.query.filter_by(id=id).first()
+            if post is None:
+                return {'message': f'post not found'}, 404
+            
+            body = request.get_json()
+            imageURL = body.get('imageURL')
+            if imageURL is None:
+                return {'message': f'no like change (imageURL) request found'}, 404
+
+            post.update(imageURL)
+            return {'message': f'Updated'}, 200
+        
+    api.add_resource(_Create, '/post') # Create post
+    api.add_resource(_Read, '/') # Read post
+    api.add_resource(_Delete, '/delete') # Delete post
+    api.add_resource(_Update, '/update') # Update post
