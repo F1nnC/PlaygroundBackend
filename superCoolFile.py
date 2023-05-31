@@ -155,27 +155,24 @@ class UserAPI:
                 return {'message': 'Invalid password'}, 401
         
     class _DeleteUser(Resource):
-        def delete(self):
-            body = request.get_json(force=True)
-            names = body.get('names', [])
-            deleted_users = []
-            
-            for name in names:
-                # Get user by name
-                user = getName(name)
-                
-                if user:
-                    # Delete the user
-                    user.delete()
-                    deleted_users.append(name)
-            
-            return {'message': 'Deleted users', 'deleted_users': deleted_users}
+        def delete(self, username, password):
+        # Get user by name
+            user = getName(username)
+
+            if user and user.is_password_match(password):
+            # Delete the user
+                user.delete()
+                return {'message': f'User {username} deleted successfully'}
+            elif not user:
+                return {'message': f'User {username} not found'}, 404
+            else:
+                return {'message': 'Invalid password'}, 401
+
 
     # Building REST API endpoints
     api.add_resource(_Create, '/create')
     api.add_resource(_Read, '/')
-    api.add_resource(_DeleteGame, '/delete_game')
-    api.add_resource(_DeleteUser, "/delete_user/<int:uid>")
+    api.add_resource(_DeleteUser, "/delete_user/<string:username>/<string:password>")
     api.add_resource(_UpdateScore, "/update_score/<int:uid>")
     api.add_resource(_Win, '/win')
 

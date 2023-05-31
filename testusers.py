@@ -25,6 +25,7 @@ class PizzaUsers(UserMixin, db.Model):
         db.session.commit()
         return self.score 
 
+
     def __init__(self, name='', uid="0", password="null", dob="11-11-1111", games="", score= ""):
         self.uid = make_id()
         self.name = name
@@ -175,6 +176,9 @@ def getGame(uid, date):
     for game in games:
         if game.date == date:
             return game
+
+def add_cors_headers(response):
+    return response
     
 def createTestingData():
     with app.app_context():
