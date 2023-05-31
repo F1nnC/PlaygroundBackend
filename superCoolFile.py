@@ -153,21 +153,21 @@ class UserAPI:
                     return {'message': 'Failed to create a new user'}, 500
             else:
                 return {'message': 'Invalid password'}, 401
-        
+
     class _DeleteUser(Resource):
         def delete(self, username, password):
-        # Get user by name
-            user = getName(username)
+            # Get user by name
+            user = PizzaUsers.query.filter_by(name=username).first()
 
             if user and user.is_password_match(password):
-            # Delete the user
-                user.delete()
+                # Delete the user
+                db.session.delete(user)
+                db.session.commit()
                 return {'message': f'User {username} deleted successfully'}
             elif not user:
                 return {'message': f'User {username} not found'}, 404
             else:
                 return {'message': 'Invalid password'}, 401
-
 
     # Building REST API endpoints
     api.add_resource(_Create, '/create')
