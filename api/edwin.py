@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from flask_restful import Api, Resource
-
+from __init__ import db, app
 from model.edwin import Phone
 
 phone_api = Blueprint('phone_api', __name__,
