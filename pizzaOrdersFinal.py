@@ -14,7 +14,7 @@ class Order(UserMixin, db.Model):
     uid = db.Column(db.Integer, unique=False, nullable=False)
 
     def __init__(self, orderName="", uid=None, pizzaType="", address=""):
-        self.uid = uid if uid is not None else make_id() 
+        self.uid = make_id() 
         self.orderName = orderName
         self.pizzaType = pizzaType
         self.address = address

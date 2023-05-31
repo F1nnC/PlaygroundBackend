@@ -13,6 +13,7 @@ from superCoolFile import pizza_user_api
 # setup App pages
 from projects.projects import app_projects
 from login import NameAPI
+from flask_cors import CORS
 
 from pizzaOrdersFinal import createTestingData2
 # Edwin's Database
