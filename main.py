@@ -43,7 +43,7 @@ def stub():
 def activate_job():
     createTestingData()
     createTestingData2()
-    initPhones() # CHANGE
+    # initPhones() # CHANGE
     # createBattleshipTable()
 
 if __name__ == "__main__":
