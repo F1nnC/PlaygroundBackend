@@ -33,10 +33,6 @@ app.register_blueprint(pizza_user_api)
 app.register_blueprint(phone_api)
 
 
-def add_cors_headers(response):
-    response.headers.add('Access-Control-Allow-Methods', 'DELETE')
-    return response
-
 
 @app.errorhandler(404)  # catch for URL not found
 def page_not_found(e):
