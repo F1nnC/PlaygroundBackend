@@ -15,7 +15,7 @@ from projects.projects import app_projects
 from login import NameAPI
 
 from pizzaOrdersFinal import createTestingData2
-from api.songs import song_api
+from songs import song_api
 # Edwin's Database
 from edwin_model import initPhones # CHANGE
 from edwin_api import phone_api # CHANGE
@@ -28,7 +28,9 @@ app.register_blueprint(pizza_user_api)
 # EDWIN
 app.register_blueprint(phone_api)
 app.register_blueprint(song_api)
-
+app.register_blueprint(server)
+app.register_blueprint(app_projects)
+app.register_blueprint(NameAPI)
 
 @app.errorhandler(404)  # catch for URL not found
 def page_not_found(e):
@@ -53,7 +55,4 @@ def activate_job():
 if __name__ == "__main__":
     from flask_cors import CORS
     cors = CORS(app)
-    app.register_blueprint(server)
-    app.register_blueprint(app_projects)
-    app.register_blueprint(NameAPI)
-    app.run(debug=True, host="0.0.0.0", port=8142)
+    app.run(debug=True, host="0.0.0.0", port=5000)
