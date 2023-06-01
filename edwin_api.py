@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from flask_restful import Api, Resource
 from __init__ import db, app
-from model.edwin import Phone
+from edwin_model import Phone
 
 phone_api = Blueprint('phone_api', __name__,
                    url_prefix='/api/edwin/')

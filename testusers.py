@@ -9,7 +9,6 @@ from flask import jsonify
 
 class PizzaUsers(UserMixin, db.Model):
     __tablename__ = 'pizza_users'
-    
     # Define the Users schema
     uid = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), unique=True, nullable=False)

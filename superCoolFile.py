@@ -4,12 +4,9 @@ from datetime import datetime
 from testusers import PizzaUsers
 from testusers import getName, getUser, getScore 
 from flask_sqlalchemy import SQLAlchemy
-
 from flask import Blueprint, request, jsonify
 from flask_restful import Api, Resource
-
 from __init__ import db, app
-
 pizza_user_api = Blueprint('pizza_user_api', __name__,
                    url_prefix='/api/users/')
 

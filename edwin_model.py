@@ -4,19 +4,11 @@ import datetime
 from datetime import datetime
 import json
 from sqlalchemy.exc import IntegrityError
-
+from __init__ import app, db
 """
 These object and definitions are used throughout the Jupyter Notebook.
 """
 
-app = Flask(__name__)
-database = 'sqlite:///sqlite.db'  # path and filename of databaseapp.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URI'] = database
-app.config['SECRET_KEY'] = 'SECRET_KEY'
-db = SQLAlchemy()
-
-
-db.init_app(app)
 
 ''' Tutorial: https://www.sqlalchemy.org/library.html#tutorials, try to get into a Python shell and follow along '''
 class Phone(db.Model):
