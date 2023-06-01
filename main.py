@@ -15,23 +15,19 @@ from projects.projects import app_projects
 from login import NameAPI
 
 from pizzaOrdersFinal import createTestingData2
-
+from api.songs import song_api
 # Edwin's Database
-from model.edwin import initPhones # CHANGE
-from api.edwin import phone_api # CHANGE
-
+from edwin_model import initPhones # CHANGE
+from edwin_api import phone_api # CHANGE
 from flask import Flask, render_template
 from flask_cors import CORS
-
-app = Flask(__name__)
-CORS(app)
 
 from pizzamethods import pizza_api_redux
 app.register_blueprint(pizza_api_redux)
 app.register_blueprint(pizza_user_api)
 # EDWIN
 app.register_blueprint(phone_api)
-
+app.register_blueprint(song_api)
 
 
 @app.errorhandler(404)  # catch for URL not found
