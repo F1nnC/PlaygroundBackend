@@ -4,7 +4,7 @@ from __init__ import db, app
 from model.edwin import Phone
 
 phone_api = Blueprint('phone_api', __name__,
-                   url_prefix='/api/edwin')
+                   url_prefix='/api/edwin/')
 
 api = Api(phone_api)
 
