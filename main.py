@@ -20,6 +20,12 @@ from pizzaOrdersFinal import createTestingData2
 from model.edwin import initPhones # CHANGE
 from api.edwin import phone_api # CHANGE
 
+from flask import Flask, render_template
+from flask_cors import CORS
+
+app = Flask(__name__)
+CORS(app)
+
 from pizzamethods import pizza_api_redux
 app.register_blueprint(pizza_api_redux)
 app.register_blueprint(pizza_user_api)
