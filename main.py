@@ -31,6 +31,10 @@ def add_cors_headers(response):
     response.headers.add('Access-Control-Allow-Methods', 'DELETE')
     return response
 
+@app.after_request
+def apply_cors_headers(response):
+    return add_cors_headers(response)
+
 @app.errorhandler(404)  # catch for URL not found
 def page_not_found(e):
     # note that we set the 404 status explicitly
