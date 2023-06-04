@@ -88,6 +88,8 @@ class Student(db.Model):
             self.studentID = studentID
         if len(name) > 0:
             self.name = name
+        if len(GPA) > 0:
+            self.GPA = GPA
         if len(percentage) > 0:
             self.percentage = percentage
         db.session.commit()
