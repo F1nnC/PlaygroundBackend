@@ -113,7 +113,6 @@ def initPhones():
                 '''fails with bad or duplicate data'''
                 print(f"Records exist uid {phone.model}, or error.")
                 
-initPhones()
 
 def find_by_company(company):
     with app.app_context():

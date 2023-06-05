@@ -16,13 +16,14 @@ from login import NameAPI
 
 from pizzaOrdersFinal import createTestingData2
 from songs import song_api
+from chess_api import chess_api
 # Edwin's Database
 from edwin_model import initPhones # CHANGE
 from edwin_api import phone_api # CHANGE
 from flask import Flask, render_template
 from flask_cors import CORS
-
 from pizzamethods import pizza_api_redux
+from chess_model import initChess
 app.register_blueprint(pizza_api_redux)
 app.register_blueprint(pizza_user_api)
 # EDWIN
@@ -31,7 +32,7 @@ app.register_blueprint(song_api)
 app.register_blueprint(server)
 app.register_blueprint(app_projects)
 app.register_blueprint(NameAPI)
-
+app.register_blueprint(chess_api)
 @app.errorhandler(404)  # catch for URL not found
 def page_not_found(e):
     # note that we set the 404 status explicitly
@@ -50,6 +51,7 @@ def activate_job():
     createTestingData()
     createTestingData2()
     initPhones() # CHANGE
+    initChess()
     # createBattleshipTable()
 
 if __name__ == "__main__":
