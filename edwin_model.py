@@ -13,14 +13,13 @@ These object and definitions are used throughout the Jupyter Notebook.
 ''' Tutorial: https://www.sqlalchemy.org/library.html#tutorials, try to get into a Python shell and follow along '''
 class Phone(db.Model):
     __tablename__ = 'Phones'  # table name is plural, class name is singular
-
+    # Made 3 new values and id is updated 
     id = db.Column(db.Integer, primary_key=True)
     _company = db.Column(db.String(255), unique=False, nullable=False) #_name
     _model = db.Column(db.String(255), unique=True, nullable=False) #_uid
     _price = db.Column(db.String(255), unique=False, nullable=False) # _password
-    _dob = db.Column(db.Date) #_dob
-
-    def __init__(self, company, model, price, dob=datetime.today()):
+    # the compa
+    def __init__(self, company, model, price):
         self._company = company
         self._model = model
         self._price = price
