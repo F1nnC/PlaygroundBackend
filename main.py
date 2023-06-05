@@ -20,6 +20,10 @@ from chess_api import chess_api
 # Edwin's Database
 from edwin_model import initPhones # CHANGE
 from edwin_api import phone_api # CHANGE
+from leading_model import initStudents
+from leading_api import student_api
+from luka_model import initPizzas
+from luka_api import menu_api
 from flask import Flask, render_template
 from flask_cors import CORS
 from pizzamethods import pizza_api_redux
@@ -28,6 +32,8 @@ app.register_blueprint(pizza_api_redux)
 app.register_blueprint(pizza_user_api)
 # EDWIN
 app.register_blueprint(phone_api)
+app.register_blueprint(student_api)
+app.register_blueprint(menu_api)
 app.register_blueprint(song_api)
 app.register_blueprint(server)
 app.register_blueprint(app_projects)
@@ -51,7 +57,6 @@ def activate_job():
     createTestingData()
     createTestingData2()
     initPhones() # CHANGE
-    initChess()
     # createBattleshipTable()
 
 if __name__ == "__main__":
